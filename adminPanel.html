@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AU Admin Dashboard</title>
+<link rel="stylesheet" href="style.css">
+<style>
+    body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;}
+    header{background:#003366;color:#fff;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;}
+    table{width:100%;border-collapse:collapse;margin:20px 0;}
+    th,td{border:1px solid #ccc;padding:8px;text-align:left;}
+    th{background:#003366;color:#fff;}
+    button{padding:5px 10px;margin:2px;border:none;border-radius:4px;cursor:pointer;}
+    .approve{background:green;color:#fff;}
+    .reject{background:red;color:#fff;}
+</style>
+</head>
+<body>
+
+<header>
+    <h2>Admin Dashboard</h2>
+    <button onclick="logout()">Logout</button>
+</header>
+
+<div style="padding:20px;">
+    <table id="studentTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Strand</th>
+                <th>Status</th>
+                <th>Grade & Section</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<script>
+// Check admin login
+if(localStorage.getItem('adminLoggedIn') !== 'true'){
+    location.href = 'admin.html';
+}
+
+// Load students
+function loadStudents(){
+    const students = JSON.parse(localStorage.getItem('students')) || [];
+    const tbody = document.querySelector('#studentTable tbody');
+    tbody.innerHTML = '';
+    students.forEach(s => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${s.id}</td>
+            <td>${s.firstName} ${s.lastName}</td>
+            <td>${s.strand || '---'}</td>
+            <td>${s.status || 'Pending'}</td>
+            <td>${s.section || '---'}</td>
+            <td>
+                <td>
+    ${s.status !== 'Approved' ? `<button class="approve" onclick="approve('${s.id}')">Approve</button>` : ''}
+    ${s.status !== 'Rejected' ? `<button class="reject" onclick="reject('${s.id}')">Reject</button>` : ''}
+    <button class="delete" style="background:#cc0000;color:#fff;" onclick="deleteStudent('${s.id}')">Delete</button>
+</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+// Approve / Reject
+function approve(id){
+    let students = JSON.parse(localStorage.getItem('students')) || [];
+    students = students.map(s => {
+        if(s.id === id){
+            s.status = 'Approved';
+            if(!s.section) s.section = s.strand + ' - ' + (Math.floor(Math.random()*3)+1);
+        }
+        return s;
+    });
+    localStorage.setItem('students', JSON.stringify(students));
+    loadStudents();
+}
+
+function reject(id){
+    let students = JSON.parse(localStorage.getItem('students')) || [];
+    students = students.map(s => {
+        if(s.id === id) s.status = 'Rejected';
+        return s;
+    });
+    localStorage.setItem('students', JSON.stringify(students));
+    loadStudents();
+}
+
+function logout(){
+    localStorage.removeItem('adminLoggedIn');
+    location.href='admin.html';
+}
+
+function deleteStudent(id){
+    if(!confirm("Are you sure you want to delete this student? This cannot be undone.")) return;
+
+    let students = JSON.parse(localStorage.getItem('students')) || [];
+    students = students.filter(s => s.id !== id); // Remove student by ID
+    localStorage.setItem('students', JSON.stringify(students));
+    loadStudents(); // Refresh table
+}
+
+// Initial load
+loadStudents();
+</script>
+</body>
+</html>
