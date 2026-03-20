@@ -241,7 +241,6 @@ label { font-weight: 600; }
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-<script>
 // ---------------- MULTI-STEP FORM ----------------
 function validateStep(current, next) {
   const inputs = document.querySelectorAll('#step'+current+' input, #step'+current+' select');
@@ -407,7 +406,7 @@ async function submitForm(){
     strand: document.getElementById('Strand').value,
     gwa: generateGWA(document.getElementById('Strand').value),
     remarks:"Passed",
-    documents:{birthCert,birthCert,goodMoral,reportCard},
+    documents:{birthCert, goodMoral, reportCard},
     photo: document.querySelector('#photoPreview img')?.src || "",
     facialPhoto: localStorage.getItem("face") || "",
     status:"Pending"
