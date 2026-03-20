@@ -144,8 +144,8 @@ label { font-weight: 600; }
     </div>
 
     <!-- STEP 3: FAMILY BACKGROUND -->
-<div class="step" id="step3">
-  <h3>Step 3: Family Background</h3>
+    <div class="step" id="step3">
+    <h3>Step 3: Family Background</h3>
 
   <h4>Father's Information</h4>
   <input id="fatherLastName" placeholder="Surname" required>
@@ -179,8 +179,8 @@ label { font-weight: 600; }
     </div>
 
     <!-- STEP 5: DOCUMENTS & PHOTO -->
-<div class="step" id="step5">
-  <h3>Step 5: Documents</h3>
+    <div class="step" id="step5">
+    <h3>Step 5: Documents</h3>
 
   <h4>Required Documents</h4>
   <ul>
@@ -210,6 +210,10 @@ label { font-weight: 600; }
   <h4>2x2 Photo</h4>
   <input type="file" id="photoUpload" required onchange="previewImage(this)">
   <div id="photoPreview" class="photo-preview">No Image</div>
+
+  <button type="button" onclick="prevStep(4)">Back</button>
+  <button type="button" onclick="validateStep(5,6)">Next</button>
+</div>
 
   <button type="button" onclick="prevStep(4)">Back</button>
   <button type="button" onclick="validateStep(5,6)">Next</button>
@@ -391,7 +395,6 @@ async function submitForm(){
   const gwaValue = generateGWA(document.getElementById('Strand').value);
 
   const student = {
-    const student = {
   id:"AU-"+Math.floor(Math.random()*999999),
   firstName: document.getElementById('firstName').value,
   lastName: document.getElementById('lastName').value,
@@ -439,6 +442,7 @@ async function submitForm(){
   facialPhoto: localStorage.getItem("face") || "",
   status:"Pending"
 };
+    
   let db = JSON.parse(localStorage.getItem('students')) || [];
   db.push(student);
   localStorage.setItem('students', JSON.stringify(db));
