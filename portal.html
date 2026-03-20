@@ -149,7 +149,10 @@ function showPortal(student){
   document.getElementById('campus').innerText = student.campus;
   document.getElementById('grade').innerText = student.grade || "Pending";
   document.getElementById('strand').innerText = student.strand || "Pending";
-  document.getElementById('section').innerText = student.section || "Not Assigned";
+  document.getElementById('section').innerText =
+  (student.strand && student.grade && student.section)
+  ? student.strand + student.grade.replace("Grade ", "") + " - " + student.section
+  : "Not Assigned";
   document.getElementById('status').innerText = student.status || "Pending";
 
   // Populate subjects
@@ -283,7 +286,10 @@ function showPortal(student){
   document.getElementById('campus').innerText = student.campus;
   document.getElementById('grade').innerText = student.grade || "Pending";
   document.getElementById('strand').innerText = student.strand || "Pending";
-  document.getElementById('section').innerText = student.section || "Not Assigned";
+  document.getElementById('section').innerText =
+  (student.strand && student.grade && student.section)
+  ? student.strand + student.grade.replace("Grade ", "") + " - " + student.section
+  : "Not Assigned";
   document.getElementById('status').innerText = student.status || "Pending";
 
   // Populate subjects dynamically
