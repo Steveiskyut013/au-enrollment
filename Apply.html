@@ -170,24 +170,39 @@ label { font-weight: 600; }
     </div>
 
     <!-- STEP 5: DOCUMENTS & PHOTO -->
-    <div class="step" id="step5">
-      <h3>Step 5: Documents</h3>
-      <input id="emergencyContact" placeholder="Emergency Contact" required>
-      <h4>Facial Capture</h4>
-      <div class="video-container">
-        <video id="video" width="300" height="225" autoplay muted></video><br>
-        <button type="button" onclick="captureFace()">Capture Face</button>
-      </div>
-      <div id="facePreview" class="photo-preview">No Face</div>
-      <h4>2x2 Photo</h4>
-      <input type="file" id="photoUpload" required onchange="previewImage(this)">
-      <div id="photoPreview" class="photo-preview">No Image</div>
-      <input type="file" id="birthCert" required>
-      <input type="file" id="goodMoral" required>
-      <input type="file" id="reportCard" required>
-      <button type="button" onclick="prevStep(4)">Back</button>
-      <button type="button" onclick="validateStep(5,6)">Next</button>
-    </div>
+    <h3>Step 5: Documents</h3>
+
+<input id="emergencyContact" placeholder="Emergency Contact" required>
+
+<h4>Required Documents</h4>
+<ul>
+  <li>📄 Form 138 (Report Card)</li>
+  <li>📄 Good Moral Certificate</li>
+  <li>📄 PSA Birth Certificate</li>
+  <li>📷 2x2 ID Picture</li>
+</ul>
+
+<label>PSA Birth Certificate</label>
+<input type="file" id="birthCert" required>
+
+<label>Good Moral Certificate</label>
+<input type="file" id="goodMoral" required>
+
+<label>Form 138 (Report Card)</label>
+<input type="file" id="reportCard" required>
+
+<h4>Facial Capture</h4>
+<div class="video-container">
+  <video id="video" width="300" height="225" autoplay muted></video><br>
+  <button type="button" onclick="captureFace()">Capture Face</button>
+</div>
+
+<div id="facePreview" class="photo-preview">No Face</div>
+
+<h4>2x2 Photo</h4>
+<input type="file" id="photoUpload" required onchange="previewImage(this)">
+<div id="photoPreview" class="photo-preview">No Image</div>
+      
 
     <!-- STEP 6: COURSE SELECTION -->
     <div class="step" id="step6">
@@ -316,6 +331,14 @@ function previewImage(input){
   reader.onload = e => document.getElementById("photoPreview").innerHTML = `<img src="${e.target.result}">`;
   reader.readAsDataURL(input.files[0]);
 }
+    function fileToBase64(file){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
 
 // ---------------- CAMERA & FACE CAPTURE ----------------
 const video = document.getElementById('video');
@@ -334,8 +357,8 @@ function captureFace(){
 
 // ---------------- FORM SUBMISSION ----------------
 // ---------------- FORM SUBMISSION ----------------
-function submitForm(){
-  // Validate Step 6 required fields
+async function submitForm(){
+
   const step6Inputs = document.querySelectorAll('#step6 select');
   for(let i of step6Inputs){
     if(!i.value){
@@ -344,6 +367,15 @@ function submitForm(){
       return;
     }
   }
+     // Convert files
+  const birthCertFile = document.getElementById('birthCert').files[0];
+  const goodMoralFile = document.getElementById('goodMoral').files[0];
+  const reportCardFile = document.getElementById('reportCard').files[0];
+
+  const birthCert = birthCertFile ? await fileToBase64(birthCertFile) : "";
+  const goodMoral = goodMoralFile ? await fileToBase64(goodMoralFile) : "";
+  const reportCard = reportCardFile ? await fileToBase64(reportCardFile) : "";
+
 
   const student = {
     id: "AU-"+Math.floor(Math.random()*999999),
@@ -376,6 +408,26 @@ function submitForm(){
     facialPhoto: localStorage.getItem("face") || "",
     status: "Pending"
   };
+    // ✅ DOCUMENTS
+    documents: {
+      birthCert: birthCert,
+      goodMoral: goodMoral,
+      reportCard: reportCard
+    },
+
+    photo: document.querySelector('#photoPreview img')?.src || "",
+    facialPhoto: localStorage.getItem("face") || "",
+
+    status: "Pending"
+  };
+
+  let db = JSON.parse(localStorage.getItem('students')) || [];
+  db.push(student);
+  localStorage.setItem('students', JSON.stringify(db));
+
+  alert("Enrollment Submitted!\nYour ID: "+student.id);
+  location.reload();
+}
 
   let db = JSON.parse(localStorage.getItem('students')) || [];
   db.push(student);
