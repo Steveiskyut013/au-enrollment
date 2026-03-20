@@ -111,9 +111,7 @@ label { font-weight: 600; }
       <input id="lastName" placeholder="Last Name" required>
       <input id="firstName" placeholder="First Name" required>
       <input id="middleInitial" placeholder="Middle Initial">
-      <label>
-      <input type="checkbox" id="noMI"> No Middle Initial
-    </label>
+      <label><input type="checkbox" id="noMI"> No Middle Initial</label>
       <input id="suffix" placeholder="Suffix (Optional)">
       <select id="gender" required>
         <option value="">-- Select Gender --</option>
@@ -147,27 +145,26 @@ label { font-weight: 600; }
 
     <!-- STEP 3: FAMILY BACKGROUND -->
     <div class="step" id="step3">
-    <h3>Step 3: Family Background</h3>
+      <h3>Step 3: Family Background</h3>
+      <h4>Father's Information</h4>
+      <input id="fatherLastName" placeholder="Surname" required>
+      <input id="fatherFirstName" placeholder="First Name" required>
+      <input id="fatherMI" placeholder="Middle Initial">
+      <input id="fatherSuffix" placeholder="Suffix (Optional)">
+      <input id="fatherJob" placeholder="Occupation">
 
-  <h4>Father's Information</h4>
-  <input id="fatherLastName" placeholder="Surname" required>
-  <input id="fatherFirstName" placeholder="First Name" required>
-  <input id="fatherMI" placeholder="Middle Initial">
-  <input id="fatherSuffix" placeholder="Suffix (Optional)">
-  <input id="fatherJob" placeholder="Occupation">
+      <h4>Mother's Information</h4>
+      <input id="motherLastName" placeholder="Surname" required>
+      <input id="motherFirstName" placeholder="First Name" required>
+      <input id="motherMI" placeholder="Middle Initial">
+      <input id="motherSuffix" placeholder="Suffix (Optional)">
+      <input id="motherJob" placeholder="Occupation">
 
-  <h4>Mother's Information</h4>
-  <input id="motherLastName" placeholder="Surname" required>
-  <input id="motherFirstName" placeholder="First Name" required>
-  <input id="motherMI" placeholder="Middle Initial">
-  <input id="motherSuffix" placeholder="Suffix (Optional)">
-  <input id="motherJob" placeholder="Occupation">
+      <input id="guardianContact" placeholder="Emergency Contact" required>
 
-  <input id="guardianContact" placeholder="Emergency Contact" required>
-
-  <button type="button" onclick="prevStep(2)">Back</button>
-  <button type="button" onclick="validateStep(3,4)">Next</button>
-</div>
+      <button type="button" onclick="prevStep(2)">Back</button>
+      <button type="button" onclick="validateStep(3,4)">Next</button>
+    </div>
 
     <!-- STEP 4: HIGH SCHOOL -->
     <div class="step" id="step4">
@@ -182,39 +179,35 @@ label { font-weight: 600; }
 
     <!-- STEP 5: DOCUMENTS & PHOTO -->
     <div class="step" id="step5">
-    <h3>Step 5: Documents</h3>
+      <h3>Step 5: Documents</h3>
+      <h4>Required Documents</h4>
+      <ul>
+        <li>📄 Form 138 (Report Card)</li>
+        <li>📄 Good Moral Certificate</li>
+        <li>📄 PSA Birth Certificate</li>
+        <li>📷 2x2 ID Picture</li>
+      </ul>
+      <label>PSA Birth Certificate</label>
+      <input type="file" id="birthCert" required>
+      <label>Good Moral Certificate</label>
+      <input type="file" id="goodMoral" required>
+      <label>Form 138 (Report Card)</label>
+      <input type="file" id="reportCard" required>
 
-  <h4>Required Documents</h4>
-  <ul>
-    <li>📄 Form 138 (Report Card)</li>
-    <li>📄 Good Moral Certificate</li>
-    <li>📄 PSA Birth Certificate</li>
-    <li>📷 2x2 ID Picture</li>
-  </ul>
+      <h4>Facial Capture</h4>
+      <div class="video-container">
+        <video id="video" width="300" height="225" autoplay muted></video><br>
+        <button type="button" id="captureBtn">Capture Face</button>
+        <button type="button" id="retryBtn" style="display:none;">Retry</button>
+      </div>
+      <div id="facePreview" class="photo-preview">No Face</div>
 
-  <label>PSA Birth Certificate</label>
-  <input type="file" id="birthCert" required>
-
-  <label>Good Moral Certificate</label>
-  <input type="file" id="goodMoral" required>
-
-  <label>Form 138 (Report Card)</label>
-  <input type="file" id="reportCard" required>
-
-  <h4>Facial Capture</h4>
-  <div class="video-container">
-    <video id="video" width="300" height="225" autoplay muted></video><br>
-    <button type="button" id="captureBtn" onclick="captureFace()">Capture Face</button>
-    <button type="button" id="retryBtn" onclick="retryFace()" style="display:none;">Retry</button>
-  </div>
-  <div id="facePreview" class="photo-preview">No Face</div>
-
-  <h4>2x2 Photo</h4>
-  <input type="file" id="photoUpload" required onchange="previewImage(this)">
-  <div id="photoPreview" class="photo-preview">No Image</div>
-  <button type="button" onclick="prevStep(4)">Back</button>
-  <button type="button" onclick="validateStep(5,6)">Next</button>
-</div>
+      <h4>2x2 Photo</h4>
+      <input type="file" id="photoUpload" required>
+      <div id="photoPreview" class="photo-preview">No Image</div>
+      <button type="button" onclick="prevStep(4)">Back</button>
+      <button type="button" onclick="validateStep(5,6)">Next</button>
+    </div>
 
     <!-- STEP 6: COURSE SELECTION -->
     <div class="step" id="step6">
@@ -250,246 +243,195 @@ label { font-weight: 600; }
 
   </form>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-<script>
-// ---------------- MULTI-STEP FORM ----------------
-function validateStep(current, next) {
-  const inputs = document.querySelectorAll('#step'+current+' input, #step'+current+' select');
+document.addEventListener("DOMContentLoaded", function() {
 
-  for (let i of inputs) {
-    if (i.hasAttribute('required') && !i.value) {
-      alert("Please fill all required fields.");
-      i.focus();
-      return;
+  // ---------------- MULTI-STEP FORM ----------------
+  let currentStep = 1;
+  const totalSteps = 6;
+
+  function showStep(step){
+    if(step < 1 || step > totalSteps) return;
+    currentStep = step;
+    document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+    document.getElementById('step' + step).classList.add('active');
+    document.getElementById('progress').style.width = (step / totalSteps * 100) + '%';
+  }
+
+  window.validateStep = function(current, next){
+    const inputs = document.querySelectorAll('#step'+current+' input, #step'+current+' select');
+    for (let i of inputs) {
+      if (i.hasAttribute('required') && !i.value) {
+        alert("Please fill all required fields.");
+        i.focus();
+        return;
+      }
     }
+    showStep(next);
   }
 
-  nextStep(next);
-}
-
-let currentStep = 1;
-const totalSteps = 6;
-
-function showStep(step){
-  if(step < 1 || step > totalSteps) return;
-
-  currentStep = step;
-
-  document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-  document.getElementById('step' + step).classList.add('active');
-
-  document.getElementById('progress').style.width = (step / totalSteps * 100) + '%';
-}
-
-function nextStep(step){
-  showStep(step);
-}
-
-function prevStep(step){
-  showStep(step);
-}
-
-// ---------------- ADDRESS DATA ----------------
-const addressData = {
-  "NCR": {
-    "Manila": { "Tondo":"1012","Binondo":"1006","Sampaloc":"1008","Ermita":"1000","Santa Cruz":"1003","Quiapo":"1001","Malate":"1004" },
-    "Quezon City": {"Diliman":"1101","Cubao":"1109","Novaliches":"1123","Fairview":"1118"},
-    "Makati": {"Poblacion":"1200","Bel-Air":"1209","Dasmariñas":"1211"},
-    "Pasig": {"San Miguel":"1600","Oranbo":"1605"},
-    "Pasay": {"183":"1300","84":"1304"},
-    "Malabon": {"Tinajeros":"1470","Longos":"1471"}
+  window.prevStep = function(step){
+    showStep(step);
   }
-};
 
-document.getElementById("region").addEventListener("change", function(){
-  const region = this.value;
-  const citySelect = document.getElementById("province");
-
-  citySelect.innerHTML = '<option value="">-- Select City --</option>';
-  document.getElementById("barangay").innerHTML = '<option value="">-- Select Barangay --</option>';
-  document.getElementById("zip").value = '';
-
-  if(region && addressData[region]){
-    Object.keys(addressData[region]).forEach(city=>{
-      citySelect.innerHTML += `<option value="${city}">${city}</option>`;
-    });
-  }
-});
-
-document.getElementById("province").addEventListener("change", function(){
-  const region = document.getElementById("region").value;
-  const city = this.value;
-  const barangaySelect = document.getElementById("barangay");
-
-  barangaySelect.innerHTML = '<option value="">-- Select Barangay --</option>';
-  document.getElementById("zip").value = '';
-
-  if(region && city && addressData[region][city]){
-    Object.keys(addressData[region][city]).forEach(brgy=>{
-      barangaySelect.innerHTML += `<option value="${brgy}">${brgy}</option>`;
-    });
-  }
-});
-
-document.getElementById("barangay").addEventListener("change", function(){
-  const region = document.getElementById("region").value;
-  const city = document.getElementById("province").value;
-  const brgy = this.value;
-
-  document.getElementById("zip").value =
-    region && city && brgy && addressData[region][city][brgy]
-    ? addressData[region][city][brgy]
-    : '';
-});
-
-// ---------------- MIDDLE INITIAL ----------------
-document.getElementById("noMI").addEventListener("change", function(){
-  const mi = document.getElementById("middleInitial");
-
-  if(this.checked){
-    mi.value = "N/A";
-    mi.disabled = true;
-  } else {
-    mi.value = "";
-    mi.disabled = false;
-  }
-});
-
-// ---------------- IMAGE PREVIEW ----------------
-function previewImage(input){
-  if (input.files && input.files[0]) {
-    const reader = new FileReader();
-    reader.onload = e => {
-      document.getElementById("photoPreview").innerHTML =
-        `<img src="${e.target.result}">`;
-    };
-    reader.readAsDataURL(input.files[0]);
-  }
-}
-
-// ✅ FIXED FUNCTION
-function fileToBase64(file){
-  return new Promise((resolve,reject)=>{
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-// ---------------- CAMERA ----------------
-const video = document.getElementById('video');
-const canvas = document.createElement('canvas');
-canvas.width = 300;
-canvas.height = 225;
-
-if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-  navigator.mediaDevices.getUserMedia({ video: true })
-    .then(stream => video.srcObject = stream)
-    .catch(err => console.warn("Camera not available", err));
-}
-
-function captureFace(){
-  const ctx = canvas.getContext('2d');
-  ctx.drawImage(video,0,0,canvas.width,canvas.height);
-
-  const faceData = canvas.toDataURL();
-
-  document.getElementById('facePreview').innerHTML =
-    `<img src="${faceData}">`;
-
-  localStorage.setItem("face", faceData);
-
-  document.getElementById('captureBtn').style.display = 'none';
-  document.getElementById('retryBtn').style.display = 'inline-block';
-}
-
-function retryFace(){
-  document.getElementById('facePreview').innerHTML = 'No Face';
-  localStorage.removeItem("face");
-
-  document.getElementById('captureBtn').style.display = 'inline-block';
-  document.getElementById('retryBtn').style.display = 'none';
-}
-
-// ---------------- GWA ----------------
-function generateGWA(strand){
-  let min = 75, max = 95;
-
-  if(strand==="STEM") min=80;
-  if(strand==="ABM") min=78;
-  if(strand==="HUMSS") min=77;
-  if(strand==="ICT") min=76;
-
-  return (Math.random()*(max-min)+min).toFixed(2);
-}
-
-// ---------------- FORM SUBMISSION ----------------
-async function submitForm(){
-  const step6Inputs = document.querySelectorAll('#step6 select');
-
-  for(let i of step6Inputs){
-    if(!i.value){
-      alert("Please fill all required fields in Step 6.");
-      i.focus();
-      return;
+  // ---------------- ADDRESS DATA ----------------
+  const addressData = {
+    "NCR": {
+      "Manila": { "Tondo":"1012","Binondo":"1006","Sampaloc":"1008","Ermita":"1000","Santa Cruz":"1003","Quiapo":"1001","Malate":"1004" },
+      "Quezon City": {"Diliman":"1101","Cubao":"1109","Novaliches":"1123","Fairview":"1118"},
+      "Makati": {"Poblacion":"1200","Bel-Air":"1209","Dasmariñas":"1211"},
+      "Pasig": {"San Miguel":"1600","Oranbo":"1605"},
+      "Pasay": {"183":"1300","84":"1304"},
+      "Malabon": {"Tinajeros":"1470","Longos":"1471"}
     }
-  }
-
-  const birthCertFile = document.getElementById('birthCert').files[0];
-  const goodMoralFile = document.getElementById('goodMoral').files[0];
-  const reportCardFile = document.getElementById('reportCard').files[0];
-
-  const birthCert = birthCertFile ? await fileToBase64(birthCertFile) : "";
-  const goodMoral = goodMoralFile ? await fileToBase64(goodMoralFile) : "";
-  const reportCard = reportCardFile ? await fileToBase64(reportCardFile) : "";
-
-  const gwaValue = generateGWA(document.getElementById('Strand').value);
-
-  const student = {
-    id:"AU-"+Math.floor(Math.random()*999999),
-    firstName: document.getElementById('firstName').value,
-    lastName: document.getElementById('lastName').value,
-    middleInitial: document.getElementById('middleInitial').value || "N/A",
-    suffix: document.getElementById('suffix').value || "N/A",
-    gender: document.getElementById('gender').value,
-    birthdate: document.getElementById('birthdate').value,
-    email: document.getElementById('email').value,
-
-    region: document.getElementById('region').value,
-    province: document.getElementById('province').value,
-    barangay: document.getElementById('barangay').value,
-    street: document.getElementById('street').value,
-    zip: document.getElementById('zip').value,
-
-    campus: document.getElementById('Campus').value,
-    grade: document.getElementById('GradeLevel').value,
-    strand: document.getElementById('Strand').value,
-
-    gwa: gwaValue,
-    documents: { birthCert, goodMoral, reportCard },
-    photo: document.querySelector('#photoPreview img')?.src || "",
-    facialPhoto: localStorage.getItem("face") || "",
-    status:"Pending"
   };
 
-  let db = JSON.parse(localStorage.getItem('students')) || [];
-  db.push(student);
+  const region = document.getElementById("region");
+  const province = document.getElementById("province");
+  const barangay = document.getElementById("barangay");
+  const zip = document.getElementById("zip");
 
-  localStorage.setItem('students', JSON.stringify(db));
+  region.addEventListener("change", function(){
+    province.innerHTML = '<option value="">-- Select City --</option>';
+    barangay.innerHTML = '<option value="">-- Select Barangay --</option>';
+    zip.value = '';
+    if(this.value && addressData[this.value]){
+      Object.keys(addressData[this.value]).forEach(city=>{
+        province.innerHTML += `<option value="${city}">${city}</option>`;
+      });
+    }
+  });
 
-  alert("Enrollment Submitted!\nYour ID: " + student.id);
+  province.addEventListener("change", function(){
+    barangay.innerHTML = '<option value="">-- Select Barangay --</option>';
+    zip.value = '';
+    const reg = region.value;
+    const city = this.value;
+    if(reg && city && addressData[reg][city]){
+      Object.keys(addressData[reg][city]).forEach(brgy=>{
+        barangay.innerHTML += `<option value="${brgy}">${brgy}</option>`;
+      });
+    }
+  });
 
-  location.reload();
-}
+  barangay.addEventListener("change", function(){
+    const reg = region.value;
+    const city = province.value;
+    const brgy = this.value;
+    zip.value = reg && city && brgy ? addressData[reg][city][brgy] : '';
+  });
 
-document.getElementById('submitBtn').addEventListener('click', submitForm);
+  // ---------------- MIDDLE INITIAL ----------------
+  const noMI = document.getElementById("noMI");
+  const mi = document.getElementById("middleInitial");
+  noMI.addEventListener("change", function(){
+    if(this.checked){ mi.value="N/A"; mi.disabled=true; } else{ mi.value=""; mi.disabled=false; }
+  });
 
-// ---------------- SELECT2 ----------------
-$(document).ready(function() {
+  // ---------------- IMAGE PREVIEW ----------------
+  document.getElementById("photoUpload").addEventListener("change", function(){
+    if (this.files && this.files[0]) {
+      const reader = new FileReader();
+      reader.onload = e => { document.getElementById("photoPreview").innerHTML = `<img src="${e.target.result}">`; }
+      reader.readAsDataURL(this.files[0]);
+    }
+  });
+
+  function fileToBase64(file){
+    return new Promise((resolve,reject)=>{
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ---------------- CAMERA ----------------
+  const video = document.getElementById('video');
+  const canvas = document.createElement('canvas');
+  canvas.width = 300; canvas.height = 225;
+
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => video.srcObject = stream)
+      .catch(err => console.warn("Camera not available", err));
+  }
+
+  document.getElementById('captureBtn').addEventListener("click", function(){
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video,0,0,canvas.width,canvas.height);
+    const faceData = canvas.toDataURL();
+    document.getElementById('facePreview').innerHTML = `<img src="${faceData}">`;
+    localStorage.setItem("face", faceData);
+    this.style.display = "none";
+    document.getElementById('retryBtn').style.display = "inline-block";
+  });
+
+  document.getElementById('retryBtn').addEventListener("click", function(){
+    document.getElementById('facePreview').innerHTML = 'No Face';
+    localStorage.removeItem("face");
+    this.style.display = "none";
+    document.getElementById('captureBtn').style.display = "inline-block";
+  });
+
+  // ---------------- GWA ----------------
+  function generateGWA(strand){
+    let min=75, max=95;
+    if(strand==="STEM") min=80;
+    if(strand==="ABM") min=78;
+    if(strand==="HUMSS") min=77;
+    if(strand==="ICT") min=76;
+    return (Math.random()*(max-min)+min).toFixed(2);
+  }
+
+  // ---------------- FORM SUBMISSION ----------------
+  document.getElementById('submitBtn').addEventListener("click", async function(){
+    const step6Inputs = document.querySelectorAll('#step6 select');
+    for(let i of step6Inputs){ if(!i.value){ alert("Please fill all required fields in Step 6."); i.focus(); return; } }
+
+    const birthCert = document.getElementById('birthCert').files[0] ? await fileToBase64(document.getElementById('birthCert').files[0]) : "";
+    const goodMoral = document.getElementById('goodMoral').files[0] ? await fileToBase64(document.getElementById('goodMoral').files[0]) : "";
+    const reportCard = document.getElementById('reportCard').files[0] ? await fileToBase64(document.getElementById('reportCard').files[0]) : "";
+
+    const gwaValue = generateGWA(document.getElementById('Strand').value);
+
+    const student = {
+      id:"AU-"+Math.floor(Math.random()*999999),
+      firstName: document.getElementById('firstName').value,
+      lastName: document.getElementById('lastName').value,
+      middleInitial: mi.value||"N/A",
+      suffix: document.getElementById('suffix').value||"N/A",
+      gender: document.getElementById('gender').value,
+      birthdate: document.getElementById('birthdate').value,
+      email: document.getElementById('email').value,
+      region: region.value,
+      province: province.value,
+      barangay: barangay.value,
+      street: document.getElementById('street').value,
+      zip: zip.value,
+      campus: document.getElementById('Campus').value,
+      grade: document.getElementById('GradeLevel').value,
+      strand: document.getElementById('Strand').value,
+      gwa: gwaValue,
+      documents: { birthCert, goodMoral, reportCard },
+      photo: document.querySelector('#photoPreview img')?.src || "",
+      facialPhoto: localStorage.getItem("face") || "",
+      status:"Pending"
+    };
+
+    let db = JSON.parse(localStorage.getItem('students')) || [];
+    db.push(student);
+    localStorage.setItem('students', JSON.stringify(db));
+    alert("Enrollment Submitted!\nYour ID: " + student.id);
+    location.reload();
+  });
+
+  // ---------------- SELECT2 ----------------
   $('#region, #province, #barangay, #Campus, #GradeLevel, #Strand').select2();
+
 });
 </script>
 </body>
