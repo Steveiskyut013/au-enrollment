@@ -126,25 +126,22 @@ label { font-weight: 600; }
     <!-- STEP 2: ADDRESS -->
     <div class="step" id="step2">
       <h3>Step 2: Address</h3>
-
-<label>Region</label>
-<select id="region" required>
-  <option value="">-- Select Region --</option>
-  <option value="NCR">National Capital Region (NCR)</option>
-</select>
-
-<label>City / Municipality</label>
-<select id="province" required></select>
-
-<label>Barangay</label>
-<select id="barangay" required></select>
-
-<label>Street / House No / Subdivision</label>
-<input id="street" placeholder="Street / House No / Subdivision" required>
-
-<label>ZIP Code</label>
-<input id="zip" readonly placeholder="ZIP Code">
-</div>
+      <label>Region</label>
+      <select id="region" required>
+        <option value="">-- Select Region --</option>
+        <option value="NCR">National Capital Region (NCR)</option>
+      </select>
+      <label>City / Municipality</label>
+      <select id="province" required></select>
+      <label>Barangay</label>
+      <select id="barangay" required></select>
+      <label>Street / House No / Subdivision</label>
+      <input id="street" placeholder="Street / House No / Subdivision" required>
+      <label>ZIP Code</label>
+      <input id="zip" readonly placeholder="ZIP Code">
+      <button type="button" onclick="prevStep(1)">Back</button>
+      <button type="button" onclick="validateStep(2,3)">Next</button>
+    </div>
 
     <!-- STEP 3: FAMILY BACKGROUND -->
     <div class="step" id="step3">
@@ -169,46 +166,43 @@ label { font-weight: 600; }
       <button type="button" onclick="validateStep(4,5)">Next</button>
     </div>
 
-<!-- STEP 5: DOCUMENTS & PHOTO -->
-<div class="step" id="step5">
-  <h3>Step 5: Documents</h3>
+    <!-- STEP 5: DOCUMENTS & PHOTO -->
+    <div class="step" id="step5">
+      <h3>Step 5: Documents</h3>
+      <input id="emergencyContact" placeholder="Emergency Contact" required>
 
-  <input id="emergencyContact" placeholder="Emergency Contact" required>
+      <h4>Required Documents</h4>
+      <ul>
+        <li>📄 Form 138 (Report Card)</li>
+        <li>📄 Good Moral Certificate</li>
+        <li>📄 PSA Birth Certificate</li>
+        <li>📷 2x2 ID Picture</li>
+      </ul>
 
-  <h4>Required Documents</h4>
-  <ul>
-    <li>📄 Form 138 (Report Card)</li>
-    <li>📄 Good Moral Certificate</li>
-    <li>📄 PSA Birth Certificate</li>
-    <li>📷 2x2 ID Picture</li>
-  </ul>
+      <label>PSA Birth Certificate</label>
+      <input type="file" id="birthCert" required>
 
-  <label>PSA Birth Certificate</label>
-  <input type="file" id="birthCert" required>
+      <label>Good Moral Certificate</label>
+      <input type="file" id="goodMoral" required>
 
-  <label>Good Moral Certificate</label>
-  <input type="file" id="goodMoral" required>
+      <label>Form 138 (Report Card)</label>
+      <input type="file" id="reportCard" required>
 
-  <label>Form 138 (Report Card)</label>
-  <input type="file" id="reportCard" required>
+      <h4>Facial Capture</h4>
+      <div class="video-container">
+        <video id="video" width="300" height="225" autoplay muted></video><br>
+        <button type="button" id="captureBtn" onclick="captureFace()">Capture Face</button>
+        <button type="button" id="retryBtn" onclick="retryFace()" style="display:none;">Retry</button>
+      </div>
+      <div id="facePreview" class="photo-preview">No Face</div>
 
-  <h4>Facial Capture</h4>
-  <div class="video-container">
-    <video id="video" width="300" height="225" autoplay muted></video><br>
-    <button type="button" id="captureBtn" onclick="captureFace()">Capture Face</button>
-    <button type="button" id="retryBtn" onclick="retryFace()" style="display:none;">Retry</button>
-  </div>
+      <h4>2x2 Photo</h4>
+      <input type="file" id="photoUpload" required onchange="previewImage(this)">
+      <div id="photoPreview" class="photo-preview">No Image</div>
 
-  <div id="facePreview" class="photo-preview">No Face</div>
-
-  <h4>2x2 Photo</h4>
-  <input type="file" id="photoUpload" required onchange="previewImage(this)">
-  <div id="photoPreview" class="photo-preview">No Image</div>
-
-  <button type="button" onclick="prevStep(4)">Back</button>
-  <button type="button" onclick="validateStep(5,6)">Next</button>
-</div>
-      
+      <button type="button" onclick="prevStep(4)">Back</button>
+      <button type="button" onclick="validateStep(5,6)">Next</button>
+    </div>
 
     <!-- STEP 6: COURSE SELECTION -->
     <div class="step" id="step6">
@@ -239,14 +233,13 @@ label { font-weight: 600; }
         </optgroup>
       </select>
       <button type="button" onclick="prevStep(5)">Back</button>
- <button type="button" id="submitBtn">Submit Enrollment</button>
+      <button type="button" id="submitBtn">Submit Enrollment</button>
     </div>
 
   </form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script>
 <script>
 // ---------------- MULTI-STEP FORM ----------------
 function nextStep(step){
@@ -255,7 +248,6 @@ function nextStep(step){
   document.getElementById('progress').style.width = (step/6*100)+'%';
 }
 function prevStep(step){ nextStep(step); }
-
 function validateStep(current,next){
   const inputs = document.querySelectorAll('#step'+current+' input,#step'+current+' select');
   for(let i of inputs){
@@ -268,7 +260,7 @@ function validateStep(current,next){
   nextStep(next);
 }
 
-// ---------------- METRO MANILA ADDRESS DATA ----------------
+// ---------------- ADDRESS DATA ----------------
 const addressData = {
   "NCR": {
     "Manila": { "Tondo":"1012","Binondo":"1006","Sampaloc":"1008","Ermita":"1000","Santa Cruz":"1003","Quiapo":"1001","Malate":"1004" },
@@ -280,52 +272,42 @@ const addressData = {
   }
 };
 
-// ---------------- LOAD CITIES / BARANGAYS ----------------
-// Load Cities based on Region
+// ---------------- CITY / BARANGAY ----------------
 document.getElementById("region").addEventListener("change", function(){
   const region = this.value;
   const citySelect = document.getElementById("province");
-
   citySelect.innerHTML = '<option value="">-- Select City --</option>';
   document.getElementById("barangay").innerHTML = '<option value="">-- Select Barangay --</option>';
   document.getElementById("zip").value = '';
-
   if(region && addressData[region]){
     Object.keys(addressData[region]).forEach(city=>{
       citySelect.innerHTML += `<option value="${city}">${city}</option>`;
     });
   }
 });
-
-// Load Barangays
 document.getElementById("province").addEventListener("change", function(){
   const region = document.getElementById("region").value;
   const city = this.value;
   const barangaySelect = document.getElementById("barangay");
-
   barangaySelect.innerHTML = '<option value="">-- Select Barangay --</option>';
   document.getElementById("zip").value = '';
-
   if(region && city && addressData[region][city]){
     Object.keys(addressData[region][city]).forEach(brgy=>{
       barangaySelect.innerHTML += `<option value="${brgy}">${brgy}</option>`;
     });
   }
 });
-
-// Auto ZIP
 document.getElementById("barangay").addEventListener("change", function(){
   const region = document.getElementById("region").value;
   const city = document.getElementById("province").value;
   const brgy = this.value;
-
   document.getElementById("zip").value =
     region && city && brgy && addressData[region][city][brgy]
     ? addressData[region][city][brgy]
     : '';
 });
 
-// ---------------- MIDDLE INITIAL TOGGLE ----------------
+// ---------------- MIDDLE INITIAL ----------------
 document.getElementById("noMI").addEventListener("change", function(){
   const mi = document.getElementById("middleInitial");
   if(this.checked){ mi.value="N/A"; mi.disabled=true; } else{ mi.value=""; mi.disabled=false; }
@@ -338,133 +320,98 @@ function previewImage(input){
   reader.readAsDataURL(input.files[0]);
 }
 function fileToBase64(file){
-  return new Promise((resolve, reject)=>{
+  return new Promise((resolve,reject)=>{
     const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
+    reader.onload = ()=>resolve(reader.result);
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
 }
 
-// ---------------- CAMERA & FACE CAPTURE ----------------
+// ---------------- CAMERA ----------------
 const video = document.getElementById('video');
 const canvas = document.createElement('canvas');
 canvas.width = 300; canvas.height = 225;
 navigator.mediaDevices.getUserMedia({video:true})
 .then(stream=>video.srcObject=stream)
 .catch(err=>console.warn("Camera not available", err));
-
 function captureFace(){
   const ctx = canvas.getContext('2d');
   ctx.drawImage(video,0,0,canvas.width,canvas.height);
   const faceData = canvas.toDataURL();
-
   document.getElementById('facePreview').innerHTML = `<img src="${faceData}">`;
   localStorage.setItem("face", faceData);
-
   document.getElementById('captureBtn').style.display = 'none';
   document.getElementById('retryBtn').style.display = 'inline-block';
 }
-
 function retryFace(){
   document.getElementById('facePreview').innerHTML = 'No Face';
   localStorage.removeItem("face");
-
   document.getElementById('captureBtn').style.display = 'inline-block';
   document.getElementById('retryBtn').style.display = 'none';
 }
 
-// ---------------- GENERAL AVERAGE PER STRAND ----------------
+// ---------------- GWA ----------------
 function generateGWA(strand){
-  let min = 75; 
-  let max = 95;
-
-  if(strand === "STEM"){ min = 80; }
-  if(strand === "ABM"){ min = 78; }
-  if(strand === "HUMSS"){ min = 77; }
-  if(strand === "ICT"){ min = 76; }
-
-  return (Math.random() * (max - min) + min).toFixed(2);
+  let min = 75, max = 95;
+  if(strand==="STEM") min=80;
+  if(strand==="ABM") min=78;
+  if(strand==="HUMSS") min=77;
+  if(strand==="ICT") min=76;
+  return (Math.random()*(max-min)+min).toFixed(2);
 }
 
 // ---------------- FORM SUBMISSION ----------------
 async function submitForm(){
   const step6Inputs = document.querySelectorAll('#step6 select');
-  for(let i of step6Inputs){
-    if(!i.value){
-      alert("Please fill all required fields in Step 6.");
-      i.focus();
-      return;
-    }
-  }
-
+  for(let i of step6Inputs){ if(!i.value){ alert("Please fill all required fields in Step 6."); i.focus(); return; } }
   const birthCertFile = document.getElementById('birthCert').files[0];
   const goodMoralFile = document.getElementById('goodMoral').files[0];
   const reportCardFile = document.getElementById('reportCard').files[0];
-
   const birthCert = birthCertFile ? await fileToBase64(birthCertFile) : "";
   const goodMoral = goodMoralFile ? await fileToBase64(goodMoralFile) : "";
   const reportCard = reportCardFile ? await fileToBase64(reportCardFile) : "";
-
   const student = {
-    id: "AU-"+Math.floor(Math.random()*999999),
+    id:"AU-"+Math.floor(Math.random()*999999),
     firstName: document.getElementById('firstName').value,
     lastName: document.getElementById('lastName').value,
-    middleInitial: document.getElementById('middleInitial').value || "N/A",
-    suffix: document.getElementById('suffix').value || "N/A",
+    middleInitial: document.getElementById('middleInitial').value||"N/A",
+    suffix: document.getElementById('suffix').value||"N/A",
     gender: document.getElementById('gender').value,
     birthdate: document.getElementById('birthdate').value,
     email: document.getElementById('email').value,
-
     region: document.getElementById('region').value,
     province: document.getElementById('province').value,
     barangay: document.getElementById('barangay').value,
     street: document.getElementById('street').value,
     zip: document.getElementById('zip').value,
-
     fatherName: document.getElementById('fatherName').value,
-    fatherJob: document.getElementById('fatherJob').value || "N/A",
+    fatherJob: document.getElementById('fatherJob').value||"N/A",
     motherName: document.getElementById('motherName').value,
-    motherJob: document.getElementById('motherJob').value || "N/A",
+    motherJob: document.getElementById('motherJob').value||"N/A",
     guardianContact: document.getElementById('guardianContact').value,
-
     hsSchool: document.getElementById('hsSchool').value,
     hsAddress: document.getElementById('hsAddress').value,
     hsYear: document.getElementById('hsYear').value,
-    hsAwards: document.getElementById('hsAwards').value || "N/A",
-
+    hsAwards: document.getElementById('hsAwards').value||"N/A",
     emergencyContact: document.getElementById('emergencyContact').value,
-
     campus: document.getElementById('Campus').value,
     grade: document.getElementById('GradeLevel').value,
     strand: document.getElementById('Strand').value,
-
     gwa: generateGWA(document.getElementById('Strand').value),
-    remarks: "Passed",
-
-    documents: {
-      birthCert: birthCert,
-      goodMoral: goodMoral,
-      reportCard: reportCard
-    },
-
+    remarks:"Passed",
+    documents:{birthCert,birthCert,goodMoral,reportCard},
     photo: document.querySelector('#photoPreview img')?.src || "",
     facialPhoto: localStorage.getItem("face") || "",
-
-    status: "Pending"
+    status:"Pending"
   };
-
   let db = JSON.parse(localStorage.getItem('students')) || [];
   db.push(student);
   localStorage.setItem('students', JSON.stringify(db));
-
   alert("Enrollment Submitted!\nYour ID: "+student.id);
   location.reload();
 }
-
-// Change Step 6 button to call submitForm()
 document.getElementById('submitBtn').addEventListener('click', submitForm);
-
 </script>
 </body>
 </html>
