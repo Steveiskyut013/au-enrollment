@@ -253,13 +253,11 @@ function validateStep(current, next) {
   }
   nextStep(next);
 }
-
 function nextStep(step){
   document.querySelectorAll('.step').forEach(el=>el.classList.remove('active'));
   document.getElementById('step'+step).classList.add('active');
   document.getElementById('progress').style.width = (step/6*100)+'%';
 }
-
 function prevStep(step){
   document.querySelectorAll('.step').forEach(el=>el.classList.remove('active'));
   document.getElementById('step'+step).classList.add('active');
@@ -277,8 +275,6 @@ const addressData = {
     "Malabon": {"Tinajeros":"1470","Longos":"1471"}
   }
 };
-
-// ---------------- CITY / BARANGAY ----------------
 document.getElementById("region").addEventListener("change", function(){
   const region = this.value;
   const citySelect = document.getElementById("province");
@@ -371,12 +367,16 @@ function generateGWA(strand){
 async function submitForm(){
   const step6Inputs = document.querySelectorAll('#step6 select');
   for(let i of step6Inputs){ if(!i.value){ alert("Please fill all required fields in Step 6."); i.focus(); return; } }
+
   const birthCertFile = document.getElementById('birthCert').files[0];
   const goodMoralFile = document.getElementById('goodMoral').files[0];
   const reportCardFile = document.getElementById('reportCard').files[0];
   const birthCert = birthCertFile ? await fileToBase64(birthCertFile) : "";
   const goodMoral = goodMoralFile ? await fileToBase64(goodMoralFile) : "";
   const reportCard = reportCardFile ? await fileToBase64(reportCardFile) : "";
+
+  const gwaValue = generateGWA(document.getElementById('Strand').value);
+
   const student = {
     id:"AU-"+Math.floor(Math.random()*999999),
     firstName: document.getElementById('firstName').value,
@@ -404,9 +404,9 @@ async function submitForm(){
     campus: document.getElementById('Campus').value,
     grade: document.getElementById('GradeLevel').value,
     strand: document.getElementById('Strand').value,
-    gwa: generateGWA(document.getElementById('Strand').value),
+    gwa: gwaValue,
     remarks:"Passed",
-    documents:{birthCert, goodMoral, reportCard},
+    documents:{birthCert, goodMoral, reportCard, gwa:gwaValue},
     photo: document.querySelector('#photoPreview img')?.src || "",
     facialPhoto: localStorage.getItem("face") || "",
     status:"Pending"
