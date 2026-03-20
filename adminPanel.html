@@ -4,7 +4,11 @@
 <meta charset="UTF-8">
 <title>AU Admin Dashboard</title>
 <link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+    .stat-card { background: #fff; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-top: 5px solid #003366; }
+    .chart-container { background: #fff; padding: 20px; border-radius: 10px; margin-bottom: 30px; height: 300px; }
     body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;}
     header{background:#003366;color:#fff;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;}
     table{width:100%;border-collapse:collapse;margin:20px 0;}
@@ -16,6 +20,15 @@
 </style>
 </head>
 <body>
+    <div class="stats-grid">
+    <div class="stat-card"><h3>Total Enrollees</h3><h2 id="totalCount">0</h2></div>
+    <div class="stat-card" style="border-top-color: #28a745;"><h3>Approved</h3><h2 id="approvedCount">0</h2></div>
+    <div class="stat-card" style="border-top-color: #dc3545;"><h3>Pending</h3><h2 id="pendingCount">0</h2></div>
+</div>
+
+<div class="chart-container">
+    <canvas id="enrollmentChart"></canvas>
+</div>
 
 <header>
     <h2>Admin Dashboard</h2>
