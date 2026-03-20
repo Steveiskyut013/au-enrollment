@@ -37,7 +37,11 @@
         <tbody></tbody>
     </table>
 </div>
-
+<hr>
+    
+<h2>Admin Panel - Student Records</h2>
+<div id="adminList"></div>
+    
 <script>
 // Check admin login
 if(localStorage.getItem('adminLoggedIn') !== 'true'){
@@ -68,6 +72,39 @@ function loadStudents(){
     });
 }
 
+    // ---------------- DOCUMENT VIEWER ----------------
+function loadStudentDocuments(){
+    const students = JSON.parse(localStorage.getItem('students')) || [];
+    const container = document.getElementById('adminList');
+
+    container.innerHTML = "";
+
+    students.forEach(s => {
+        const div = document.createElement('div');
+        div.style.border = "1px solid #ccc";
+        div.style.padding = "15px";
+        div.style.margin = "10px";
+        div.style.background = "#fff";
+
+        div.innerHTML = `
+            <h3>${s.firstName} ${s.lastName}</h3>
+            <p><b>ID:</b> ${s.id}</p>
+            <p><b>Status:</b> ${s.status}</p>
+
+            <h4>Documents</h4>
+            <p><a href="${s.documents?.birthCert || '#'}" target="_blank">View PSA Birth Certificate</a></p>
+            <p><a href="${s.documents?.goodMoral || '#'}" target="_blank">View Good Moral</a></p>
+            <p><a href="${s.documents?.reportCard || '#'}" target="_blank">View Form 138</a></p>
+
+            <h4>Photos</h4>
+            ${s.photo ? `<img src="${s.photo}" width="100">` : 'No Photo'}
+            ${s.facialPhoto ? `<img src="${s.facialPhoto}" width="100">` : 'No Face'}
+        `;
+
+        container.appendChild(div);
+    });
+}
+    
 // Approve / Reject
 function approve(id){
     let students = JSON.parse(localStorage.getItem('students')) || [];
@@ -80,6 +117,7 @@ function approve(id){
     });
     localStorage.setItem('students', JSON.stringify(students));
     loadStudents();
+    loadStudentDocuments();
 }
 
 function reject(id){
