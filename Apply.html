@@ -343,11 +343,23 @@ document.getElementById("noMI").addEventListener("change", function(){
 // ---------------- IMAGE PREVIEW ----------------
 function previewImage(input){
   const reader = new FileReader();
-  reader.onload = e => document.getElementById("photoPreview").innerHTML = `<img src="${e.target.result}">`;
+  reader.onload = e => {
+    document.getElementById("photoPreview").innerHTML = `<img src="${e.target.result}">`;
+  };
+
   if (input.files && input.files[0]) {
-  reader.readAsDataURL(input.files[0]);
-}
+    reader.readAsDataURL(input.files[0]);
+  }
+} // ✅ THIS WAS MISSING
+
 function fileToBase64(file){
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onload = ()=>resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
   return new Promise((resolve,reject)=>{
     const reader = new FileReader();
     reader.onload = ()=>resolve(reader.result);
