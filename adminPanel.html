@@ -65,7 +65,7 @@ function loadStudents(){
                 <td>
     ${s.status !== 'Approved' ? `<button class="approve" onclick="approve('${s.id}')">Approve</button>` : ''}
     ${s.status !== 'Rejected' ? `<button class="reject" onclick="reject('${s.id}')">Reject</button>` : ''}
-    <button class="delete" style="background:#cc0000;color:#fff;" onclick="deleteStudent('${s.id}')">Delete</button>
+    ${s.status !== 'Approved' ? `<button class="delete" style="background:#cc0000;color:#fff;" onclick="deleteStudent('${s.id}')">Delete</button>` : ''}
 </td>
         `;
         tbody.appendChild(tr);
@@ -90,6 +90,10 @@ function loadStudentDocuments(){
             <h3>${s.firstName} ${s.lastName}</h3>
             <p><b>ID:</b> ${s.id}</p>
             <p><b>Status:</b> ${s.status}</p>
+            <p><b>Notice:</b></p>
+            <p style="white-space:pre-line; background:#eef; padding:10px; border-radius:8px;">
+  ${s.notice || "No notice yet"}
+</p>
 
             <h4>Documents</h4>
             <p><a href="${s.documents?.birthCert || '#'}" target="_blank">View PSA Birth Certificate</a></p>
@@ -108,26 +112,61 @@ function loadStudentDocuments(){
 // Approve / Reject
 function approve(id){
     let students = JSON.parse(localStorage.getItem('students')) || [];
+
     students = students.map(s => {
         if(s.id === id){
             s.status = 'Approved';
+
             if(!s.section) s.section = (Math.floor(Math.random()*3)+1);
+
+            // ✅ ADD NOTICE
+            s.notice = `
+🎉 Congratulations ${s.firstName}!
+
+Welcome to Arellano University.
+
+You have been officially ADMITTED.
+
+Please proceed to the AU Office / Records Office and submit the following documents:
+
+• Form 138 (Report Card)
+• Good Moral Certificate
+• PSA Birth Certificate
+• 2x2 ID Picture
+
+We are excited to have you as part of our academic community!
+            `;
         }
         return s;
     });
+
     localStorage.setItem('students', JSON.stringify(students));
     loadStudents();
     loadStudentDocuments();
-}
-
-function reject(id){
+}function reject(id){
     let students = JSON.parse(localStorage.getItem('students')) || [];
+
     students = students.map(s => {
-        if(s.id === id) s.status = 'Rejected';
+        if(s.id === id){
+            s.status = 'Rejected';
+
+            // ❌ ADD NOTICE
+            s.notice = `
+We regret to inform you, ${s.firstName},
+
+that your application for admission to Arellano University has not been approved at this time.
+
+You may coordinate with the admissions office for further clarification.
+
+Thank you for your interest in our institution.
+            `;
+        }
         return s;
     });
+
     localStorage.setItem('students', JSON.stringify(students));
     loadStudents();
+    loadStudentDocuments();
 }
 
 function logout(){
