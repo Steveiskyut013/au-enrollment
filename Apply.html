@@ -242,6 +242,7 @@ label { font-weight: 600; }
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+<script>
 // ---------------- MULTI-STEP FORM ----------------
 function nextStep(step){
   document.querySelectorAll('.step').forEach(el=>el.classList.remove('active'));
@@ -264,7 +265,6 @@ function validateStep(current,next){
 
 // ---------------- METRO MANILA ADDRESS DATA ----------------
 const addressData = {
-  const addressData = {
   "NCR": {
     "Manila": { "Tondo":"1012","Binondo":"1006","Sampaloc":"1008","Ermita":"1000","Santa Cruz":"1003","Quiapo":"1001","Malate":"1004" },
     "Quezon City": {"Diliman":"1101","Cubao":"1109","Novaliches":"1123","Fairview":"1118"},
@@ -332,7 +332,7 @@ function previewImage(input){
   reader.onload = e => document.getElementById("photoPreview").innerHTML = `<img src="${e.target.result}">`;
   reader.readAsDataURL(input.files[0]);
 }
-    function fileToBase64(file){
+function fileToBase64(file){
   return new Promise((resolve, reject)=>{
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result);
@@ -348,49 +348,42 @@ canvas.width = 300; canvas.height = 225;
 navigator.mediaDevices.getUserMedia({video:true})
 .then(stream=>video.srcObject=stream)
 .catch(err=>console.warn("Camera not available", err));
+
 function captureFace(){
   const ctx = canvas.getContext('2d');
   ctx.drawImage(video,0,0,canvas.width,canvas.height);
   const faceData = canvas.toDataURL();
 
-  // Show captured face
   document.getElementById('facePreview').innerHTML = `<img src="${faceData}">`;
   localStorage.setItem("face", faceData);
 
-  // Hide capture button and show retry button
   document.getElementById('captureBtn').style.display = 'none';
   document.getElementById('retryBtn').style.display = 'inline-block';
 }
 
 function retryFace(){
-  // Clear preview
   document.getElementById('facePreview').innerHTML = 'No Face';
   localStorage.removeItem("face");
 
-  // Show capture button again
   document.getElementById('captureBtn').style.display = 'inline-block';
   document.getElementById('retryBtn').style.display = 'none';
 }
 
-// ---------------- FORM SUBMISSION ----------------
-// ---------------- FORM SUBMISSION ----------------
-
- // ---------------- GENERAL AVERAGE PER STRAND ----------------
+// ---------------- GENERAL AVERAGE PER STRAND ----------------
 function generateGWA(strand){
-  let min = 75; // passing
+  let min = 75; 
   let max = 95;
 
-  // Optional: different difficulty per strand
   if(strand === "STEM"){ min = 80; }
   if(strand === "ABM"){ min = 78; }
   if(strand === "HUMSS"){ min = 77; }
   if(strand === "ICT"){ min = 76; }
 
   return (Math.random() * (max - min) + min).toFixed(2);
-}   
-    
-async function submitForm(){
+}
 
+// ---------------- FORM SUBMISSION ----------------
+async function submitForm(){
   const step6Inputs = document.querySelectorAll('#step6 select');
   for(let i of step6Inputs){
     if(!i.value){
@@ -399,7 +392,7 @@ async function submitForm(){
       return;
     }
   }
-     // Convert files
+
   const birthCertFile = document.getElementById('birthCert').files[0];
   const goodMoralFile = document.getElementById('goodMoral').files[0];
   const reportCardFile = document.getElementById('reportCard').files[0];
@@ -408,69 +401,58 @@ async function submitForm(){
   const goodMoral = goodMoralFile ? await fileToBase64(goodMoralFile) : "";
   const reportCard = reportCardFile ? await fileToBase64(reportCardFile) : "";
 
-
   const student = {
-  id: "AU-"+Math.floor(Math.random()*999999),
+    id: "AU-"+Math.floor(Math.random()*999999),
+    firstName: document.getElementById('firstName').value,
+    lastName: document.getElementById('lastName').value,
+    middleInitial: document.getElementById('middleInitial').value || "N/A",
+    suffix: document.getElementById('suffix').value || "N/A",
+    gender: document.getElementById('gender').value,
+    birthdate: document.getElementById('birthdate').value,
+    email: document.getElementById('email').value,
 
-  firstName: document.getElementById('firstName').value,
-  lastName: document.getElementById('lastName').value,
-  middleInitial: document.getElementById('middleInitial').value || "N/A",
-  suffix: document.getElementById('suffix').value || "N/A",
-  gender: document.getElementById('gender').value,
-  birthdate: document.getElementById('birthdate').value,
-  email: document.getElementById('email').value,
+    region: document.getElementById('region').value,
+    province: document.getElementById('province').value,
+    barangay: document.getElementById('barangay').value,
+    street: document.getElementById('street').value,
+    zip: document.getElementById('zip').value,
 
-  region: document.getElementById('region').value,
-  province: document.getElementById('province').value,
-  barangay: document.getElementById('barangay').value,
-  street: document.getElementById('street').value,
-  zip: document.getElementById('zip').value,
+    fatherName: document.getElementById('fatherName').value,
+    fatherJob: document.getElementById('fatherJob').value || "N/A",
+    motherName: document.getElementById('motherName').value,
+    motherJob: document.getElementById('motherJob').value || "N/A",
+    guardianContact: document.getElementById('guardianContact').value,
 
-  fatherName: document.getElementById('fatherName').value,
-  fatherJob: document.getElementById('fatherJob').value || "N/A",
-  motherName: document.getElementById('motherName').value,
-  motherJob: document.getElementById('motherJob').value || "N/A",
-  guardianContact: document.getElementById('guardianContact').value,
+    hsSchool: document.getElementById('hsSchool').value,
+    hsAddress: document.getElementById('hsAddress').value,
+    hsYear: document.getElementById('hsYear').value,
+    hsAwards: document.getElementById('hsAwards').value || "N/A",
 
-  hsSchool: document.getElementById('hsSchool').value,
-  hsAddress: document.getElementById('hsAddress').value,
-  hsYear: document.getElementById('hsYear').value,
-  hsAwards: document.getElementById('hsAwards').value || "N/A",
+    emergencyContact: document.getElementById('emergencyContact').value,
 
-  emergencyContact: document.getElementById('emergencyContact').value,
+    campus: document.getElementById('Campus').value,
+    grade: document.getElementById('GradeLevel').value,
+    strand: document.getElementById('Strand').value,
 
-  campus: document.getElementById('Campus').value,
-  grade: document.getElementById('GradeLevel').value,
-  strand: document.getElementById('Strand').value,
+    gwa: generateGWA(document.getElementById('Strand').value),
+    remarks: "Passed",
 
-  // ✅ NEW
-  gwa: generateGWA(document.getElementById('Strand').value),
-  remarks: "Passed",
+    documents: {
+      birthCert: birthCert,
+      goodMoral: goodMoral,
+      reportCard: reportCard
+    },
 
-  // ✅ DOCUMENTS
-  documents: {
-    birthCert: birthCert,
-    goodMoral: goodMoral,
-    reportCard: reportCard
-  },
+    photo: document.querySelector('#photoPreview img')?.src || "",
+    facialPhoto: localStorage.getItem("face") || "",
 
-  photo: document.querySelector('#photoPreview img')?.src || "",
-  facialPhoto: localStorage.getItem("face") || "",
-
-  status: "Pending"
-};
+    status: "Pending"
+  };
 
   let db = JSON.parse(localStorage.getItem('students')) || [];
   db.push(student);
   localStorage.setItem('students', JSON.stringify(db));
 
-  alert("Enrollment Submitted!\nYour ID: "+student.id);
-  location.reload();
-}
-
-  let db = JSON.parse(localStorage.getItem('students')) || [];
-  db.push(student);
-  localStorage.setItem('students', JSON.stringify(db));
   alert("Enrollment Submitted!\nYour ID: "+student.id);
   location.reload();
 }
@@ -478,7 +460,6 @@ async function submitForm(){
 // Change Step 6 button to call submitForm()
 document.getElementById('submitBtn').addEventListener('click', submitForm);
 
-document.addEventListener("DOMContentLoaded", loadCities);
 </script>
 </body>
 </html>
