@@ -253,11 +253,13 @@ function validateStep(current, next) {
   }
   nextStep(next);
 }
+
 function nextStep(step){
   document.querySelectorAll('.step').forEach(el=>el.classList.remove('active'));
   document.getElementById('step'+step).classList.add('active');
   document.getElementById('progress').style.width = (step/6*100)+'%';
 }
+
 function prevStep(step){
   document.querySelectorAll('.step').forEach(el=>el.classList.remove('active'));
   document.getElementById('step'+step).classList.add('active');
