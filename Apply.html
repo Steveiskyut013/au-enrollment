@@ -253,8 +253,9 @@ label { font-weight: 600; }
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+<script>
 // ---------------- MULTI-STEP FORM ----------------
-    function validateStep(current, next) {
+function validateStep(current, next) {
   const inputs = document.querySelectorAll('#step'+current+' input, #step'+current+' select');
 
   for (let i of inputs) {
@@ -267,7 +268,7 @@ label { font-weight: 600; }
 
   nextStep(next);
 }
-    
+
 let currentStep = 1;
 const totalSteps = 6;
 
@@ -289,6 +290,7 @@ function nextStep(step){
 function prevStep(step){
   showStep(step);
 }
+
 // ---------------- ADDRESS DATA ----------------
 const addressData = {
   "NCR": {
@@ -300,34 +302,42 @@ const addressData = {
     "Malabon": {"Tinajeros":"1470","Longos":"1471"}
   }
 };
+
 document.getElementById("region").addEventListener("change", function(){
   const region = this.value;
   const citySelect = document.getElementById("province");
+
   citySelect.innerHTML = '<option value="">-- Select City --</option>';
   document.getElementById("barangay").innerHTML = '<option value="">-- Select Barangay --</option>';
   document.getElementById("zip").value = '';
+
   if(region && addressData[region]){
     Object.keys(addressData[region]).forEach(city=>{
       citySelect.innerHTML += `<option value="${city}">${city}</option>`;
     });
   }
 });
+
 document.getElementById("province").addEventListener("change", function(){
   const region = document.getElementById("region").value;
   const city = this.value;
   const barangaySelect = document.getElementById("barangay");
+
   barangaySelect.innerHTML = '<option value="">-- Select Barangay --</option>';
   document.getElementById("zip").value = '';
+
   if(region && city && addressData[region][city]){
     Object.keys(addressData[region][city]).forEach(brgy=>{
       barangaySelect.innerHTML += `<option value="${brgy}">${brgy}</option>`;
     });
   }
 });
+
 document.getElementById("barangay").addEventListener("change", function(){
   const region = document.getElementById("region").value;
   const city = document.getElementById("province").value;
   const brgy = this.value;
+
   document.getElementById("zip").value =
     region && city && brgy && addressData[region][city][brgy]
     ? addressData[region][city][brgy]
@@ -337,32 +347,33 @@ document.getElementById("barangay").addEventListener("change", function(){
 // ---------------- MIDDLE INITIAL ----------------
 document.getElementById("noMI").addEventListener("change", function(){
   const mi = document.getElementById("middleInitial");
-  if(this.checked){ mi.value="N/A"; mi.disabled=true; } else{ mi.value=""; mi.disabled=false; }
+
+  if(this.checked){
+    mi.value = "N/A";
+    mi.disabled = true;
+  } else {
+    mi.value = "";
+    mi.disabled = false;
+  }
 });
 
 // ---------------- IMAGE PREVIEW ----------------
 function previewImage(input){
-  const reader = new FileReader();
-  reader.onload = e => {
-    document.getElementById("photoPreview").innerHTML = `<img src="${e.target.result}">`;
-  };
-
   if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById("photoPreview").innerHTML =
+        `<img src="${e.target.result}">`;
+    };
     reader.readAsDataURL(input.files[0]);
   }
-} // ✅ THIS WAS MISSING
+}
 
+// ✅ FIXED FUNCTION
 function fileToBase64(file){
   return new Promise((resolve,reject)=>{
     const reader = new FileReader();
-    reader.onload = ()=>resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-  return new Promise((resolve,reject)=>{
-    const reader = new FileReader();
-    reader.onload = ()=>resolve(reader.result);
+    reader.onload = () => resolve(reader.result);
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
@@ -371,26 +382,34 @@ function fileToBase64(file){
 // ---------------- CAMERA ----------------
 const video = document.getElementById('video');
 const canvas = document.createElement('canvas');
-canvas.width = 300; canvas.height = 225;
+canvas.width = 300;
+canvas.height = 225;
+
 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
   navigator.mediaDevices.getUserMedia({ video: true })
     .then(stream => video.srcObject = stream)
     .catch(err => console.warn("Camera not available", err));
-} else {
-  console.warn("MediaDevices API not supported");
 }
+
 function captureFace(){
   const ctx = canvas.getContext('2d');
   ctx.drawImage(video,0,0,canvas.width,canvas.height);
+
   const faceData = canvas.toDataURL();
-  document.getElementById('facePreview').innerHTML = `<img src="${faceData}">`;
+
+  document.getElementById('facePreview').innerHTML =
+    `<img src="${faceData}">`;
+
   localStorage.setItem("face", faceData);
+
   document.getElementById('captureBtn').style.display = 'none';
   document.getElementById('retryBtn').style.display = 'inline-block';
 }
+
 function retryFace(){
   document.getElementById('facePreview').innerHTML = 'No Face';
   localStorage.removeItem("face");
+
   document.getElementById('captureBtn').style.display = 'inline-block';
   document.getElementById('retryBtn').style.display = 'none';
 }
@@ -398,21 +417,31 @@ function retryFace(){
 // ---------------- GWA ----------------
 function generateGWA(strand){
   let min = 75, max = 95;
+
   if(strand==="STEM") min=80;
   if(strand==="ABM") min=78;
   if(strand==="HUMSS") min=77;
   if(strand==="ICT") min=76;
+
   return (Math.random()*(max-min)+min).toFixed(2);
 }
 
 // ---------------- FORM SUBMISSION ----------------
 async function submitForm(){
   const step6Inputs = document.querySelectorAll('#step6 select');
-  for(let i of step6Inputs){ if(!i.value){ alert("Please fill all required fields in Step 6."); i.focus(); return; } }
+
+  for(let i of step6Inputs){
+    if(!i.value){
+      alert("Please fill all required fields in Step 6.");
+      i.focus();
+      return;
+    }
+  }
 
   const birthCertFile = document.getElementById('birthCert').files[0];
   const goodMoralFile = document.getElementById('goodMoral').files[0];
   const reportCardFile = document.getElementById('reportCard').files[0];
+
   const birthCert = birthCertFile ? await fileToBase64(birthCertFile) : "";
   const goodMoral = goodMoralFile ? await fileToBase64(goodMoralFile) : "";
   const reportCard = reportCardFile ? await fileToBase64(reportCardFile) : "";
@@ -420,71 +449,48 @@ async function submitForm(){
   const gwaValue = generateGWA(document.getElementById('Strand').value);
 
   const student = {
-  id:"AU-"+Math.floor(Math.random()*999999),
-  firstName: document.getElementById('firstName').value,
-  lastName: document.getElementById('lastName').value,
-  middleInitial: document.getElementById('middleInitial').value||"N/A",
-  suffix: document.getElementById('suffix').value||"N/A",
-  gender: document.getElementById('gender').value,
-  birthdate: document.getElementById('birthdate').value,
-  email: document.getElementById('email').value,
-  region: document.getElementById('region').value,
-  province: document.getElementById('province').value,
-  barangay: document.getElementById('barangay').value,
-  street: document.getElementById('street').value,
-  zip: document.getElementById('zip').value,
+    id:"AU-"+Math.floor(Math.random()*999999),
+    firstName: document.getElementById('firstName').value,
+    lastName: document.getElementById('lastName').value,
+    middleInitial: document.getElementById('middleInitial').value || "N/A",
+    suffix: document.getElementById('suffix').value || "N/A",
+    gender: document.getElementById('gender').value,
+    birthdate: document.getElementById('birthdate').value,
+    email: document.getElementById('email').value,
 
-  father: {
-    lastName: document.getElementById('fatherLastName').value,
-    firstName: document.getElementById('fatherFirstName').value,
-    middleInitial: document.getElementById('fatherMI').value||"N/A",
-    suffix: document.getElementById('fatherSuffix').value||"N/A",
-    job: document.getElementById('fatherJob').value||"N/A"
-  },
+    region: document.getElementById('region').value,
+    province: document.getElementById('province').value,
+    barangay: document.getElementById('barangay').value,
+    street: document.getElementById('street').value,
+    zip: document.getElementById('zip').value,
 
-  mother: {
-    lastName: document.getElementById('motherLastName').value,
-    firstName: document.getElementById('motherFirstName').value,
-    middleInitial: document.getElementById('motherMI').value||"N/A",
-    suffix: document.getElementById('motherSuffix').value||"N/A",
-    job: document.getElementById('motherJob').value||"N/A"
-  },
+    campus: document.getElementById('Campus').value,
+    grade: document.getElementById('GradeLevel').value,
+    strand: document.getElementById('Strand').value,
 
-  guardianContact: document.getElementById('guardianContact').value,
+    gwa: gwaValue,
+    documents: { birthCert, goodMoral, reportCard },
+    photo: document.querySelector('#photoPreview img')?.src || "",
+    facialPhoto: localStorage.getItem("face") || "",
+    status:"Pending"
+  };
 
-  hsSchool: document.getElementById('hsSchool').value,
-  hsAddress: document.getElementById('hsAddress').value,
-  hsYear: document.getElementById('hsYear').value,
-  hsAwards: document.getElementById('hsAwards').value||"N/A",
-
-  campus: document.getElementById('Campus').value,
-  grade: document.getElementById('GradeLevel').value,
-  strand: document.getElementById('Strand').value,
-  gwa: gwaValue,
-  remarks:"Passed",
-  documents:{birthCert, goodMoral, reportCard, gwa: generateGWA(document.getElementById('Strand').value)},
-  photo: document.querySelector('#photoPreview img')?.src || "",
-  facialPhoto: localStorage.getItem("face") || "",
-  status:"Pending"
-};
-    
   let db = JSON.parse(localStorage.getItem('students')) || [];
   db.push(student);
+
   localStorage.setItem('students', JSON.stringify(db));
-  alert("Enrollment Submitted!\nYour ID: "+student.id);
+
+  alert("Enrollment Submitted!\nYour ID: " + student.id);
+
   location.reload();
 }
+
 document.getElementById('submitBtn').addEventListener('click', submitForm);
-    
+
+// ---------------- SELECT2 ----------------
 $(document).ready(function() {
-$('#region').select2();
-$('#province').select2();
-$('#barangay').select2();
-$('#Campus').select2();
-$('#GradeLevel').select2();
-$('#Strand').select2();
+  $('#region, #province, #barangay, #Campus, #GradeLevel, #Strand').select2();
 });
-    
 </script>
 </body>
 </html>
