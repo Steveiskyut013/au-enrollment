@@ -357,6 +357,21 @@ function captureFace(){
 
 // ---------------- FORM SUBMISSION ----------------
 // ---------------- FORM SUBMISSION ----------------
+
+ // ---------------- GENERAL AVERAGE PER STRAND ----------------
+function generateGWA(strand){
+  let min = 75; // passing
+  let max = 95;
+
+  // Optional: different difficulty per strand
+  if(strand === "STEM"){ min = 80; }
+  if(strand === "ABM"){ min = 78; }
+  if(strand === "HUMSS"){ min = 77; }
+  if(strand === "ICT"){ min = 76; }
+
+  return (Math.random() * (max - min) + min).toFixed(2);
+}   
+    
 async function submitForm(){
 
   const step6Inputs = document.querySelectorAll('#step6 select');
@@ -378,48 +393,55 @@ async function submitForm(){
 
 
   const student = {
-    id: "AU-"+Math.floor(Math.random()*999999),
-    firstName: document.getElementById('firstName').value,
-    lastName: document.getElementById('lastName').value,
-    middleInitial: document.getElementById('middleInitial').value || "N/A",
-    suffix: document.getElementById('suffix').value || "N/A",
-    gender: document.getElementById('gender').value,
-    birthdate: document.getElementById('birthdate').value,
-    email: document.getElementById('email').value,
-    region: document.getElementById('region').value,
-    province: document.getElementById('province').value,
-    barangay: document.getElementById('barangay').value,
-    street: document.getElementById('street').value,
-    zip: document.getElementById('zip').value,
-    fatherName: document.getElementById('fatherName').value,
-    fatherJob: document.getElementById('fatherJob').value || "N/A",
-    motherName: document.getElementById('motherName').value,
-    motherJob: document.getElementById('motherJob').value || "N/A",
-    guardianContact: document.getElementById('guardianContact').value,
-    hsSchool: document.getElementById('hsSchool').value,
-    hsAddress: document.getElementById('hsAddress').value,
-    hsYear: document.getElementById('hsYear').value,
-    hsAwards: document.getElementById('hsAwards').value || "N/A",
-    emergencyContact: document.getElementById('emergencyContact').value,
-    campus: document.getElementById('Campus').value,
-    grade: document.getElementById('GradeLevel').value,
-    strand: document.getElementById('Strand').value,
-    photo: document.querySelector('#photoPreview img')?.src || "",
-    facialPhoto: localStorage.getItem("face") || "",
-    status: "Pending"
-  };
-    // ✅ DOCUMENTS
-    documents: {
-      birthCert: birthCert,
-      goodMoral: goodMoral,
-      reportCard: reportCard
-    },
+  id: "AU-"+Math.floor(Math.random()*999999),
 
-    photo: document.querySelector('#photoPreview img')?.src || "",
-    facialPhoto: localStorage.getItem("face") || "",
+  firstName: document.getElementById('firstName').value,
+  lastName: document.getElementById('lastName').value,
+  middleInitial: document.getElementById('middleInitial').value || "N/A",
+  suffix: document.getElementById('suffix').value || "N/A",
+  gender: document.getElementById('gender').value,
+  birthdate: document.getElementById('birthdate').value,
+  email: document.getElementById('email').value,
 
-    status: "Pending"
-  };
+  region: document.getElementById('region').value,
+  province: document.getElementById('province').value,
+  barangay: document.getElementById('barangay').value,
+  street: document.getElementById('street').value,
+  zip: document.getElementById('zip').value,
+
+  fatherName: document.getElementById('fatherName').value,
+  fatherJob: document.getElementById('fatherJob').value || "N/A",
+  motherName: document.getElementById('motherName').value,
+  motherJob: document.getElementById('motherJob').value || "N/A",
+  guardianContact: document.getElementById('guardianContact').value,
+
+  hsSchool: document.getElementById('hsSchool').value,
+  hsAddress: document.getElementById('hsAddress').value,
+  hsYear: document.getElementById('hsYear').value,
+  hsAwards: document.getElementById('hsAwards').value || "N/A",
+
+  emergencyContact: document.getElementById('emergencyContact').value,
+
+  campus: document.getElementById('Campus').value,
+  grade: document.getElementById('GradeLevel').value,
+  strand: document.getElementById('Strand').value,
+
+  // ✅ NEW
+  gwa: generateGWA(document.getElementById('Strand').value),
+  remarks: "Passed",
+
+  // ✅ DOCUMENTS
+  documents: {
+    birthCert: birthCert,
+    goodMoral: goodMoral,
+    reportCard: reportCard
+  },
+
+  photo: document.querySelector('#photoPreview img')?.src || "",
+  facialPhoto: localStorage.getItem("face") || "",
+
+  status: "Pending"
+};
 
   let db = JSON.parse(localStorage.getItem('students')) || [];
   db.push(student);
