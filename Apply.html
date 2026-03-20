@@ -111,8 +111,9 @@ label { font-weight: 600; }
       <input id="lastName" placeholder="Last Name" required>
       <input id="firstName" placeholder="First Name" required>
       <input id="middleInitial" placeholder="Middle Initial">
-        "No Middle Initial"
-      <label><input type="checkbox" id="noMI"></label>
+      <label>
+      <input type="checkbox" id="noMI"> No Middle Initial
+    </label>
       <input id="suffix" placeholder="Suffix (Optional)">
       <select id="gender" required>
         <option value="">-- Select Gender --</option>
@@ -211,7 +212,8 @@ label { font-weight: 600; }
   <h4>2x2 Photo</h4>
   <input type="file" id="photoUpload" required onchange="previewImage(this)">
   <div id="photoPreview" class="photo-preview">No Image</div>
-
+  <button type="button" onclick="prevStep(4)">Back</button>
+  <button type="button" onclick="validateStep(5,6)">Next</button>
 </div>
 
     <!-- STEP 6: COURSE SELECTION -->
@@ -252,22 +254,12 @@ label { font-weight: 600; }
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 // ---------------- MULTI-STEP FORM ----------------
-function validateStep(current, next) {
-  const inputs = document.querySelectorAll('#step'+current+' input, #step'+current+' select');
-  for (let i of inputs) {
-    if (i.required && !i.value) {
-      alert("Please fill all required fields.");
-      i.focus();
-      return;
-    }
-  }
-  nextStep(next);
-}
-
 let currentStep = 1;
 const totalSteps = 6;
 
 function showStep(step){
+  if(step < 1 || step > totalSteps) return;
+
   currentStep = step;
 
   document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
@@ -277,17 +269,12 @@ function showStep(step){
 }
 
 function nextStep(step){
-  if(step <= totalSteps){
-    showStep(step);
-  }
+  showStep(step);
 }
 
 function prevStep(step){
-  if(step >= 1){
-    showStep(step);
-  }
+  showStep(step);
 }
-
 // ---------------- ADDRESS DATA ----------------
 const addressData = {
   "NCR": {
