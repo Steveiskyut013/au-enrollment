@@ -194,7 +194,8 @@ label { font-weight: 600; }
 <h4>Facial Capture</h4>
 <div class="video-container">
   <video id="video" width="300" height="225" autoplay muted></video><br>
-  <button type="button" onclick="captureFace()">Capture Face</button>
+  <button type="button" id="captureBtn" onclick="captureFace()">Capture Face</button>
+  <button type="button" id="retryBtn" onclick="retryFace()" style="display:none;">Retry</button>
 </div>
 
 <div id="facePreview" class="photo-preview">No Face</div>
@@ -351,8 +352,24 @@ function captureFace(){
   const ctx = canvas.getContext('2d');
   ctx.drawImage(video,0,0,canvas.width,canvas.height);
   const faceData = canvas.toDataURL();
+
+  // Show captured face
   document.getElementById('facePreview').innerHTML = `<img src="${faceData}">`;
   localStorage.setItem("face", faceData);
+
+  // Hide capture button and show retry button
+  document.getElementById('captureBtn').style.display = 'none';
+  document.getElementById('retryBtn').style.display = 'inline-block';
+}
+
+function retryFace(){
+  // Clear preview
+  document.getElementById('facePreview').innerHTML = 'No Face';
+  localStorage.removeItem("face");
+
+  // Show capture button again
+  document.getElementById('captureBtn').style.display = 'inline-block';
+  document.getElementById('retryBtn').style.display = 'none';
 }
 
 // ---------------- FORM SUBMISSION ----------------
