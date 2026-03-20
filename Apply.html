@@ -250,7 +250,7 @@ label { font-weight: 600; }
 
   </form>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 // ---------------- MULTI-STEP FORM ----------------
@@ -344,6 +344,7 @@ document.getElementById("noMI").addEventListener("change", function(){
 function previewImage(input){
   const reader = new FileReader();
   reader.onload = e => document.getElementById("photoPreview").innerHTML = `<img src="${e.target.result}">`;
+  if (input.files && input.files[0]) {
   reader.readAsDataURL(input.files[0]);
 }
 function fileToBase64(file){
@@ -359,9 +360,13 @@ function fileToBase64(file){
 const video = document.getElementById('video');
 const canvas = document.createElement('canvas');
 canvas.width = 300; canvas.height = 225;
-navigator.mediaDevices.getUserMedia({video:true})
-.then(stream=>video.srcObject=stream)
-.catch(err=>console.warn("Camera not available", err));
+if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(stream => video.srcObject = stream)
+    .catch(err => console.warn("Camera not available", err));
+} else {
+  console.warn("MediaDevices API not supported");
+}
 function captureFace(){
   const ctx = canvas.getContext('2d');
   ctx.drawImage(video,0,0,canvas.width,canvas.height);
@@ -443,7 +448,7 @@ async function submitForm(){
   campus: document.getElementById('Campus').value,
   grade: document.getElementById('GradeLevel').value,
   strand: document.getElementById('Strand').value,
-  gwa: generateGWA(document.getElementById('Strand').value),
+  gwa: gwaValue,
   remarks:"Passed",
   documents:{birthCert, goodMoral, reportCard, gwa: generateGWA(document.getElementById('Strand').value)},
   photo: document.querySelector('#photoPreview img')?.src || "",
@@ -458,6 +463,16 @@ async function submitForm(){
   location.reload();
 }
 document.getElementById('submitBtn').addEventListener('click', submitForm);
+    
+$(document).ready(function() {
+$('#region').select2();
+$('#province').select2();
+$('#barangay').select2();
+$('#Campus').select2();
+$('#GradeLevel').select2();
+$('#Strand').select2();
+});
+    
 </script>
 </body>
 </html>
