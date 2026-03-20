@@ -144,16 +144,28 @@ label { font-weight: 600; }
     </div>
 
     <!-- STEP 3: FAMILY BACKGROUND -->
-    <div class="step" id="step3">
-      <h3>Step 3: Family Background</h3>
-      <input id="fatherName" placeholder="Father's Name" required>
-      <input id="fatherJob" placeholder="Father's Occupation">
-      <input id="motherName" placeholder="Mother's Name" required>
-      <input id="motherJob" placeholder="Mother's Occupation">
-      <input id="guardianContact" placeholder="Guardian Contact Number" required>
-      <button type="button" onclick="prevStep(2)">Back</button>
-      <button type="button" onclick="validateStep(3,4)">Next</button>
-    </div>
+<div class="step" id="step3">
+  <h3>Step 3: Family Background</h3>
+
+  <h4>Father's Information</h4>
+  <input id="fatherLastName" placeholder="Surname" required>
+  <input id="fatherFirstName" placeholder="First Name" required>
+  <input id="fatherMI" placeholder="Middle Initial">
+  <input id="fatherSuffix" placeholder="Suffix (Optional)">
+  <input id="fatherJob" placeholder="Occupation">
+
+  <h4>Mother's Information</h4>
+  <input id="motherLastName" placeholder="Surname" required>
+  <input id="motherFirstName" placeholder="First Name" required>
+  <input id="motherMI" placeholder="Middle Initial">
+  <input id="motherSuffix" placeholder="Suffix (Optional)">
+  <input id="motherJob" placeholder="Occupation">
+
+  <input id="guardianContact" placeholder="Emergency Contact" required>
+
+  <button type="button" onclick="prevStep(2)">Back</button>
+  <button type="button" onclick="validateStep(3,4)">Next</button>
+</div>
 
     <!-- STEP 4: HIGH SCHOOL -->
     <div class="step" id="step4">
@@ -167,42 +179,41 @@ label { font-weight: 600; }
     </div>
 
     <!-- STEP 5: DOCUMENTS & PHOTO -->
-    <div class="step" id="step5">
-      <h3>Step 5: Documents</h3>
-      <input id="emergencyContact" placeholder="Emergency Contact" required>
+<div class="step" id="step5">
+  <h3>Step 5: Documents</h3>
 
-      <h4>Required Documents</h4>
-      <ul>
-        <li>📄 Form 138 (Report Card)</li>
-        <li>📄 Good Moral Certificate</li>
-        <li>📄 PSA Birth Certificate</li>
-        <li>📷 2x2 ID Picture</li>
-      </ul>
+  <h4>Required Documents</h4>
+  <ul>
+    <li>📄 Form 138 (Report Card)</li>
+    <li>📄 Good Moral Certificate</li>
+    <li>📄 PSA Birth Certificate</li>
+    <li>📷 2x2 ID Picture</li>
+  </ul>
 
-      <label>PSA Birth Certificate</label>
-      <input type="file" id="birthCert" required>
+  <label>PSA Birth Certificate</label>
+  <input type="file" id="birthCert" required>
 
-      <label>Good Moral Certificate</label>
-      <input type="file" id="goodMoral" required>
+  <label>Good Moral Certificate</label>
+  <input type="file" id="goodMoral" required>
 
-      <label>Form 138 (Report Card)</label>
-      <input type="file" id="reportCard" required>
+  <label>Form 138 (Report Card)</label>
+  <input type="file" id="reportCard" required>
 
-      <h4>Facial Capture</h4>
-      <div class="video-container">
-        <video id="video" width="300" height="225" autoplay muted></video><br>
-        <button type="button" id="captureBtn" onclick="captureFace()">Capture Face</button>
-        <button type="button" id="retryBtn" onclick="retryFace()" style="display:none;">Retry</button>
-      </div>
-      <div id="facePreview" class="photo-preview">No Face</div>
+  <h4>Facial Capture</h4>
+  <div class="video-container">
+    <video id="video" width="300" height="225" autoplay muted></video><br>
+    <button type="button" id="captureBtn" onclick="captureFace()">Capture Face</button>
+    <button type="button" id="retryBtn" onclick="retryFace()" style="display:none;">Retry</button>
+  </div>
+  <div id="facePreview" class="photo-preview">No Face</div>
 
-      <h4>2x2 Photo</h4>
-      <input type="file" id="photoUpload" required onchange="previewImage(this)">
-      <div id="photoPreview" class="photo-preview">No Image</div>
+  <h4>2x2 Photo</h4>
+  <input type="file" id="photoUpload" required onchange="previewImage(this)">
+  <div id="photoPreview" class="photo-preview">No Image</div>
 
-      <button type="button" onclick="prevStep(4)">Back</button>
-      <button type="button" onclick="validateStep(5,6)">Next</button>
-    </div>
+  <button type="button" onclick="prevStep(4)">Back</button>
+  <button type="button" onclick="validateStep(5,6)">Next</button>
+</div>
 
     <!-- STEP 6: COURSE SELECTION -->
     <div class="step" id="step6">
@@ -380,39 +391,54 @@ async function submitForm(){
   const gwaValue = generateGWA(document.getElementById('Strand').value);
 
   const student = {
-    id:"AU-"+Math.floor(Math.random()*999999),
-    firstName: document.getElementById('firstName').value,
-    lastName: document.getElementById('lastName').value,
-    middleInitial: document.getElementById('middleInitial').value||"N/A",
-    suffix: document.getElementById('suffix').value||"N/A",
-    gender: document.getElementById('gender').value,
-    birthdate: document.getElementById('birthdate').value,
-    email: document.getElementById('email').value,
-    region: document.getElementById('region').value,
-    province: document.getElementById('province').value,
-    barangay: document.getElementById('barangay').value,
-    street: document.getElementById('street').value,
-    zip: document.getElementById('zip').value,
-    fatherName: document.getElementById('fatherName').value,
-    fatherJob: document.getElementById('fatherJob').value||"N/A",
-    motherName: document.getElementById('motherName').value,
-    motherJob: document.getElementById('motherJob').value||"N/A",
-    guardianContact: document.getElementById('guardianContact').value,
-    hsSchool: document.getElementById('hsSchool').value,
-    hsAddress: document.getElementById('hsAddress').value,
-    hsYear: document.getElementById('hsYear').value,
-    hsAwards: document.getElementById('hsAwards').value||"N/A",
-    emergencyContact: document.getElementById('emergencyContact').value,
-    campus: document.getElementById('Campus').value,
-    grade: document.getElementById('GradeLevel').value,
-    strand: document.getElementById('Strand').value,
-    gwa: gwaValue,
-    remarks:"Passed",
-    documents:{birthCert, goodMoral, reportCard, gwa:gwaValue},
-    photo: document.querySelector('#photoPreview img')?.src || "",
-    facialPhoto: localStorage.getItem("face") || "",
-    status:"Pending"
-  };
+    const student = {
+  id:"AU-"+Math.floor(Math.random()*999999),
+  firstName: document.getElementById('firstName').value,
+  lastName: document.getElementById('lastName').value,
+  middleInitial: document.getElementById('middleInitial').value||"N/A",
+  suffix: document.getElementById('suffix').value||"N/A",
+  gender: document.getElementById('gender').value,
+  birthdate: document.getElementById('birthdate').value,
+  email: document.getElementById('email').value,
+  region: document.getElementById('region').value,
+  province: document.getElementById('province').value,
+  barangay: document.getElementById('barangay').value,
+  street: document.getElementById('street').value,
+  zip: document.getElementById('zip').value,
+
+  father: {
+    lastName: document.getElementById('fatherLastName').value,
+    firstName: document.getElementById('fatherFirstName').value,
+    middleInitial: document.getElementById('fatherMI').value||"N/A",
+    suffix: document.getElementById('fatherSuffix').value||"N/A",
+    job: document.getElementById('fatherJob').value||"N/A"
+  },
+
+  mother: {
+    lastName: document.getElementById('motherLastName').value,
+    firstName: document.getElementById('motherFirstName').value,
+    middleInitial: document.getElementById('motherMI').value||"N/A",
+    suffix: document.getElementById('motherSuffix').value||"N/A",
+    job: document.getElementById('motherJob').value||"N/A"
+  },
+
+  guardianContact: document.getElementById('guardianContact').value,
+
+  hsSchool: document.getElementById('hsSchool').value,
+  hsAddress: document.getElementById('hsAddress').value,
+  hsYear: document.getElementById('hsYear').value,
+  hsAwards: document.getElementById('hsAwards').value||"N/A",
+
+  campus: document.getElementById('Campus').value,
+  grade: document.getElementById('GradeLevel').value,
+  strand: document.getElementById('Strand').value,
+  gwa: generateGWA(document.getElementById('Strand').value),
+  remarks:"Passed",
+  documents:{birthCert, goodMoral, reportCard, gwa: generateGWA(document.getElementById('Strand').value)},
+  photo: document.querySelector('#photoPreview img')?.src || "",
+  facialPhoto: localStorage.getItem("face") || "",
+  status:"Pending"
+};
   let db = JSON.parse(localStorage.getItem('students')) || [];
   db.push(student);
   localStorage.setItem('students', JSON.stringify(db));
