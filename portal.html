@@ -102,6 +102,8 @@ th, td { padding:8px; text-align:left; }
       <p><strong>Section:</strong> <span id="section"></span></p>
       <p><strong>Strand:</strong> <span id="strand"></span></p>
       <p><strong>Status:</strong> <span id="status"></span></p>
+      <p><strong>General Average:</strong> <span id="gwa"></span></p>
+      <p><strong>Remarks:</strong> <span id="remarks"></span></p>
     </div>
   </div>
 
@@ -153,6 +155,8 @@ function showPortal(student){
   (student.strand && student.grade && student.section)
   ? student.strand + student.grade.replace("Grade ", "") + " - " + student.section
   : "Not Assigned";
+  document.getElementById('gwa').innerText = student.gwa || "-";
+  document.getElementById('remarks').innerText = student.remarks || "-";
   document.getElementById('status').innerText = student.status || "Pending";
 
   // Populate subjects
