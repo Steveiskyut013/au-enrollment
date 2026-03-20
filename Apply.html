@@ -241,8 +241,8 @@ label { font-weight: 600; }
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-// ---------------- MULTI-STEP FORM ----------------
 <script>
+// ---------------- MULTI-STEP FORM ----------------
 function validateStep(current, next) {
   const inputs = document.querySelectorAll('#step'+current+' input, #step'+current+' select');
   for (let i of inputs) {
@@ -254,22 +254,17 @@ function validateStep(current, next) {
   }
   nextStep(next);
 }
-</script>
+
+function nextStep(step){
+  document.querySelectorAll('.step').forEach(el=>el.classList.remove('active'));
+  document.getElementById('step'+step).classList.add('active');
+  document.getElementById('progress').style.width = (step/6*100)+'%';
+}
 
 function prevStep(step){
   document.querySelectorAll('.step').forEach(el=>el.classList.remove('active'));
   document.getElementById('step'+step).classList.add('active');
   document.getElementById('progress').style.width = (step/6*100)+'%';
-}
-  const inputs = document.querySelectorAll('#step'+current+' input,#step'+current+' select');
-  for(let i of inputs){
-    if(i.required && !i.value){
-      alert("Please fill all required fields.");
-      i.focus();
-      return;
-    }
-  }
-  nextStep(next);
 }
 
 // ---------------- ADDRESS DATA ----------------
