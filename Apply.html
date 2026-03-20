@@ -126,17 +126,25 @@ label { font-weight: 600; }
     <!-- STEP 2: ADDRESS -->
     <div class="step" id="step2">
       <h3>Step 2: Address</h3>
-      <label>City / Municipality</label>
-      <select id="province" required></select>
-      <label>Barangay</label>
-      <select id="barangay" required></select>
-      <label>Street / House No / Subdivision</label>
-      <input id="street" placeholder="Street / House No / Subdivision" required>
-      <label>ZIP Code</label>
-      <input id="zip" readonly placeholder="ZIP Code">
-      <button type="button" onclick="prevStep(1)">Back</button>
-      <button type="button" onclick="validateStep(2,3)">Next</button>
-    </div>
+
+<label>Region</label>
+<select id="region" required>
+  <option value="">-- Select Region --</option>
+  <option value="NCR">National Capital Region (NCR)</option>
+</select>
+
+<label>City / Municipality</label>
+<select id="province" required></select>
+
+<label>Barangay</label>
+<select id="barangay" required></select>
+
+<label>Street / House No / Subdivision</label>
+<input id="street" placeholder="Street / House No / Subdivision" required>
+
+<label>ZIP Code</label>
+<input id="zip" readonly placeholder="ZIP Code">
+</div>
 
     <!-- STEP 3: FAMILY BACKGROUND -->
     <div class="step" id="step3">
@@ -240,39 +248,60 @@ function validateStep(current,next){
 
 // ---------------- METRO MANILA ADDRESS DATA ----------------
 const addressData = {
-  "Quezon City": {"Diliman":"1101","Cubao":"1109","Novaliches":"1123","Fairview":"1118"},
-  "Makati": {"Poblacion":"1200","Bel-Air":"1209","Dasmariñas":"1211"},
-  "Pasig": {"Bgy. San Miguel":"1600","Bgy. Oranbo":"1605"},
-  "Pasay": {"Bgy. 183":"1300","Bgy. 84":"1304"},
-  "Malabon": {"Tinajeros":"1470","Longos":"1471"},
-  "Manila": { "Tondo":"1012","Binondo":"1006","Sampaloc":"1008","Ermita":"1000","Santa Cruz":"1003","Quiapo":"1001","Malate":"1004" }
+  const addressData = {
+  "NCR": {
+    "Manila": { "Tondo":"1012","Binondo":"1006","Sampaloc":"1008","Ermita":"1000","Santa Cruz":"1003","Quiapo":"1001","Malate":"1004" },
+    "Quezon City": {"Diliman":"1101","Cubao":"1109","Novaliches":"1123","Fairview":"1118"},
+    "Makati": {"Poblacion":"1200","Bel-Air":"1209","Dasmariñas":"1211"},
+    "Pasig": {"San Miguel":"1600","Oranbo":"1605"},
+    "Pasay": {"183":"1300","84":"1304"},
+    "Malabon": {"Tinajeros":"1470","Longos":"1471"}
+  }
 };
 
 // ---------------- LOAD CITIES / BARANGAYS ----------------
-function loadCities() {
-  const provinceSelect = document.getElementById("province");
-  provinceSelect.innerHTML = '<option value="">-- Select City / Municipality --</option>';
-  Object.keys(addressData).forEach(city=>{
-    provinceSelect.innerHTML += `<option value="${city}">${city}</option>`;
-  });
+// Load Cities based on Region
+document.getElementById("region").addEventListener("change", function(){
+  const region = this.value;
+  const citySelect = document.getElementById("province");
+
+  citySelect.innerHTML = '<option value="">-- Select City --</option>';
   document.getElementById("barangay").innerHTML = '<option value="">-- Select Barangay --</option>';
   document.getElementById("zip").value = '';
-}
+
+  if(region && addressData[region]){
+    Object.keys(addressData[region]).forEach(city=>{
+      citySelect.innerHTML += `<option value="${city}">${city}</option>`;
+    });
+  }
+});
+
+// Load Barangays
 document.getElementById("province").addEventListener("change", function(){
+  const region = document.getElementById("region").value;
   const city = this.value;
   const barangaySelect = document.getElementById("barangay");
+
   barangaySelect.innerHTML = '<option value="">-- Select Barangay --</option>';
   document.getElementById("zip").value = '';
-  if(city && addressData[city]){
-    Object.keys(addressData[city]).forEach(brgy=>{
+
+  if(region && city && addressData[region][city]){
+    Object.keys(addressData[region][city]).forEach(brgy=>{
       barangaySelect.innerHTML += `<option value="${brgy}">${brgy}</option>`;
     });
   }
 });
+
+// Auto ZIP
 document.getElementById("barangay").addEventListener("change", function(){
+  const region = document.getElementById("region").value;
   const city = document.getElementById("province").value;
   const brgy = this.value;
-  document.getElementById("zip").value = city && brgy && addressData[city][brgy]? addressData[city][brgy]:'';
+
+  document.getElementById("zip").value =
+    region && city && brgy && addressData[region][city][brgy]
+    ? addressData[region][city][brgy]
+    : '';
 });
 
 // ---------------- MIDDLE INITIAL TOGGLE ----------------
@@ -325,6 +354,7 @@ function submitForm(){
     gender: document.getElementById('gender').value,
     birthdate: document.getElementById('birthdate').value,
     email: document.getElementById('email').value,
+    region: document.getElementById('region').value,
     province: document.getElementById('province').value,
     barangay: document.getElementById('barangay').value,
     street: document.getElementById('street').value,
