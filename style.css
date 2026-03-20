@@ -168,3 +168,12 @@ input[type="checkbox"]
     width: auto;       /* prevents full width */
     margin: 0;         /* remove extra spacing */
 }
+
+.id-card {
+width: 350px; height: 200px; background: linear-gradient(135deg, #003366 30%, #0055aa 100%);
+color: white; border-radius: 15px; padding: 20px; position: relative; overflow: hidden; display: none;
+    
+}
+.id-card img { width: 80px; height: 80px; border: 3px solid #fff; float: left; margin-right: 15px; }
+.id-barcode { position: absolute; bottom: 10px; right: 20px; font-family: 'Libre Barcode 39', cursive; font-size: 30px; opacity: 0.7; 
+            }
