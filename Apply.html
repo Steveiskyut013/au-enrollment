@@ -264,16 +264,28 @@ function validateStep(current, next) {
   nextStep(next);
 }
 
+let currentStep = 1;
+const totalSteps = 6;
+
+function showStep(step){
+  currentStep = step;
+
+  document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+  document.getElementById('step' + step).classList.add('active');
+
+  document.getElementById('progress').style.width = (step / totalSteps * 100) + '%';
+}
+
 function nextStep(step){
-  document.querySelectorAll('.step').forEach(el=>el.classList.remove('active'));
-  document.getElementById('step'+step).classList.add('active');
-  document.getElementById('progress').style.width = (step/6*100)+'%';
+  if(step <= totalSteps){
+    showStep(step);
+  }
 }
 
 function prevStep(step){
-  document.querySelectorAll('.step').forEach(el=>el.classList.remove('active'));
-  document.getElementById('step'+step).classList.add('active');
-  document.getElementById('progress').style.width = (step/6*100)+'%';
+  if(step >= 1){
+    showStep(step);
+  }
 }
 
 // ---------------- ADDRESS DATA ----------------
