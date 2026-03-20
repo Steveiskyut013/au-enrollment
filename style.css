@@ -153,3 +153,18 @@ tr:hover {
 .step {
     display: none;
 }
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.checkbox-label 
+input[type="checkbox"] 
+{
+    width: auto;       /* prevents full width */
+    margin: 0;         /* remove extra spacing */
+}
