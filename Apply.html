@@ -6,431 +6,331 @@
 <title>Arellano University Digital Enrollment</title>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <style>
-/* -------- GENERAL STYLES -------- */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f4f6f9;
-    margin: 0;
-    color: #333;
-}
-header {
-    background: #003366;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-header img {
-    height: 50px;
-    margin-right: 15px;
-}
-h2, h3, h4 { margin: 0 0 15px 0; }
-.form-container {
-    max-width: 900px;
-    margin: 20px auto;
-    background: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-}
-input, select {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0 16px 0;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1rem;
-}
-button {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
-    background: #003366;
-    color: white;
-    cursor: pointer;
-    font-size: 1rem;
-    margin-top: 10px;
-}
-button:hover {
-    background: #0055aa;
-}
-.step { display: none; }
-.step.active { display: block; }
-.progress-bar {
-    height: 15px;
-    background: #ddd;
-    border-radius: 10px;
-    margin-bottom: 25px;
-    overflow: hidden;
-}
-.progress {
-    height: 100%;
-    width: 0%;
-    background: #003366;
-    transition: width 0.3s ease;
-}
-.photo-preview {
-    width: 150px;
-    height: 150px;
-    border: 2px dashed #003366;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
-}
-.photo-preview img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
-}
-.video-container { margin: 15px 0; }
-.select2-container { width: 100% !important; }
-label { font-weight: 600; }
-.alert { color: red; font-size: 0.9rem; margin-top: -12px; margin-bottom: 12px; }
+/* Styles same as your original code */
+body{font-family:'Segoe UI',Tahoma,Geneva, Verdana,sans-serif;background:#f4f6f9;margin:0;color:#333;}
+header{background:#003366;color:white;padding:20px;text-align:center;display:flex;align-items:center;justify-content:center;}
+header img{height:50px;margin-right:15px;}
+h2,h3,h4{margin:0 0 15px 0;}
+.form-container{max-width:900px;margin:20px auto;background:#fff;padding:30px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1);}
+input,select{width:100%;padding:12px;margin:8px 0 16px 0;border:1px solid #ccc;border-radius:8px;font-size:1rem;}
+button{padding:12px 20px;border:none;border-radius:8px;background:#003366;color:white;cursor:pointer;font-size:1rem;margin-top:10px;}
+button:hover{background:#0055aa;}
+.step{display:none;}.step.active{display:block;}
+.progress-bar{height:15px;background:#ddd;border-radius:10px;margin-bottom:25px;overflow:hidden;}
+.progress{height:100%;width:0%;background:#003366;transition:width 0.3s ease;}
+.photo-preview{width:150px;height:150px;border:2px dashed #003366;display:flex;align-items:center;justify-content:center;margin-top:10px;}
+.photo-preview img{width:100%;height:100%;object-fit:cover;border-radius:8px;}
+.video-container{margin:15px 0;}.select2-container{width:100% !important;}
+label{font-weight:600;}.alert{color:red;font-size:0.9rem;margin-top:-12px;margin-bottom:12px;}
 </style>
 </head>
 <body>
 
 <header>
-  <img src="au-logo.png" alt="AU Logo">
-  <h2>Arellano University Digital Enrollment</h2>
+<img src="au-logo.png" alt="AU Logo">
+<h2>Arellano University Digital Enrollment</h2>
 </header>
 
 <div class="form-container">
-  <div class="progress-bar">
-      <div class="progress" id="progress"></div>
-  </div>
-  <form id="enrollForm">
+<div class="progress-bar">
+<div class="progress" id="progress"></div>
+</div>
 
-    <!-- STEP 1: STUDENT INFO -->
-    <div class="step active" id="step1">
-      <h3>Step 1: Student Information</h3>
-      <input id="lastName" placeholder="Last Name" required>
-      <input id="firstName" placeholder="First Name" required>
-      <input id="middleInitial" placeholder="Middle Initial">
-      <label><input type="checkbox" id="noMI"> No Middle Initial</label>
-      <input id="suffix" placeholder="Suffix (Optional)">
-      <select id="gender" required>
-        <option value="">-- Select Gender --</option>
-        <option>Male</option>
-        <option>Female</option>
-      </select>
-      <input type="date" id="birthdate" required>
-      <input type="email" id="email" placeholder="Email" required>
-      <button type="button" onclick="validateStep(1,2)">Next</button>
-    </div>
+<form id="enrollForm">
+<!-- STEP 1 -->
+<div class="step active" id="step1">
+<h3>Step 1: Student Information</h3>
+<input id="lastName" placeholder="Last Name" required>
+<input id="firstName" placeholder="First Name" required>
+<input id="middleInitial" placeholder="Middle Initial">
+<label><input type="checkbox" id="noMI"> No Middle Initial</label>
+<input id="suffix" placeholder="Suffix (Optional)">
+<select id="gender" required>
+<option value="">-- Select Gender --</option>
+<option>Male</option>
+<option>Female</option>
+</select>
+<input type="date" id="birthdate" required>
+<input type="email" id="email" placeholder="Email" required>
+<button type="button" id="next1">Next</button>
+</div>
 
-    <!-- STEP 2: ADDRESS -->
-    <div class="step" id="step2">
-      <h3>Step 2: Address</h3>
-      <label>Region</label>
-      <select id="region" required>
-        <option value="">-- Select Region --</option>
-        <option value="NCR">National Capital Region (NCR)</option>
-      </select>
-      <label>City / Municipality</label>
-      <select id="province" required></select>
-      <label>Barangay</label>
-      <select id="barangay" required></select>
-      <label>Street / House No / Subdivision</label>
-      <input id="street" placeholder="Street / House No / Subdivision" required>
-      <label>ZIP Code</label>
-      <input id="zip" readonly placeholder="ZIP Code">
-      <button type="button" onclick="prevStep(1)">Back</button>
-      <button type="button" onclick="validateStep(2,3)">Next</button>
-    </div>
+<!-- STEP 2 -->
+<div class="step" id="step2">
+<h3>Step 2: Address</h3>
+<label>Region</label>
+<select id="region" required>
+<option value="">-- Select Region --</option>
+<option value="NCR">National Capital Region (NCR)</option>
+</select>
+<label>City / Municipality</label>
+<select id="province" required></select>
+<label>Barangay</label>
+<select id="barangay" required></select>
+<label>Street / House No / Subdivision</label>
+<input id="street" placeholder="Street / House No / Subdivision" required>
+<label>ZIP Code</label>
+<input id="zip" readonly placeholder="ZIP Code">
+<button type="button" id="back2">Back</button>
+<button type="button" id="next2">Next</button>
+</div>
 
-    <!-- STEP 3: FAMILY BACKGROUND -->
-    <div class="step" id="step3">
-      <h3>Step 3: Family Background</h3>
-      <h4>Father's Information</h4>
-      <input id="fatherLastName" placeholder="Surname" required>
-      <input id="fatherFirstName" placeholder="First Name" required>
-      <input id="fatherMI" placeholder="Middle Initial">
-      <input id="fatherSuffix" placeholder="Suffix (Optional)">
-      <input id="fatherJob" placeholder="Occupation">
+<!-- STEP 3 -->
+<div class="step" id="step3">
+<h3>Step 3: Family Background</h3>
+<h4>Father's Information</h4>
+<input id="fatherLastName" placeholder="Surname" required>
+<input id="fatherFirstName" placeholder="First Name" required>
+<input id="fatherMI" placeholder="Middle Initial">
+<input id="fatherSuffix" placeholder="Suffix (Optional)">
+<input id="fatherJob" placeholder="Occupation">
 
-      <h4>Mother's Information</h4>
-      <input id="motherLastName" placeholder="Surname" required>
-      <input id="motherFirstName" placeholder="First Name" required>
-      <input id="motherMI" placeholder="Middle Initial">
-      <input id="motherSuffix" placeholder="Suffix (Optional)">
-      <input id="motherJob" placeholder="Occupation">
+<h4>Mother's Information</h4>
+<input id="motherLastName" placeholder="Surname" required>
+<input id="motherFirstName" placeholder="First Name" required>
+<input id="motherMI" placeholder="Middle Initial">
+<input id="motherSuffix" placeholder="Suffix (Optional)">
+<input id="motherJob" placeholder="Occupation">
 
-      <input id="guardianContact" placeholder="Emergency Contact" required>
+<input id="guardianContact" placeholder="Emergency Contact" required>
+<button type="button" id="back3">Back</button>
+<button type="button" id="next3">Next</button>
+</div>
 
-      <button type="button" onclick="prevStep(2)">Back</button>
-      <button type="button" onclick="validateStep(3,4)">Next</button>
-    </div>
+<!-- STEP 4 -->
+<div class="step" id="step4">
+<h3>Step 4: High School Background</h3>
+<input id="hsSchool" placeholder="School Name" required>
+<input id="hsAddress" placeholder="School Address" required>
+<input id="hsYear" placeholder="Year Graduated" required>
+<input id="hsAwards" placeholder="Honors / Awards">
+<button type="button" id="back4">Back</button>
+<button type="button" id="next4">Next</button>
+</div>
 
-    <!-- STEP 4: HIGH SCHOOL -->
-    <div class="step" id="step4">
-      <h3>Step 4: High School Background</h3>
-      <input id="hsSchool" placeholder="School Name" required>
-      <input id="hsAddress" placeholder="School Address" required>
-      <input id="hsYear" placeholder="Year Graduated" required>
-      <input id="hsAwards" placeholder="Honors / Awards">
-      <button type="button" onclick="prevStep(3)">Back</button>
-      <button type="button" onclick="validateStep(4,5)">Next</button>
-    </div>
+<!-- STEP 5 -->
+<div class="step" id="step5">
+<h3>Step 5: Documents</h3>
+<h4>Required Documents</h4>
+<ul>
+<li>📄 Form 138 (Report Card)</li>
+<li>📄 Good Moral Certificate</li>
+<li>📄 PSA Birth Certificate</li>
+<li>📷 2x2 ID Picture</li>
+</ul>
+<label>PSA Birth Certificate</label>
+<input type="file" id="birthCert" required>
+<label>Good Moral Certificate</label>
+<input type="file" id="goodMoral" required>
+<label>Form 138 (Report Card)</label>
+<input type="file" id="reportCard" required>
 
-    <!-- STEP 5: DOCUMENTS & PHOTO -->
-    <div class="step" id="step5">
-      <h3>Step 5: Documents</h3>
-      <h4>Required Documents</h4>
-      <ul>
-        <li>📄 Form 138 (Report Card)</li>
-        <li>📄 Good Moral Certificate</li>
-        <li>📄 PSA Birth Certificate</li>
-        <li>📷 2x2 ID Picture</li>
-      </ul>
-      <label>PSA Birth Certificate</label>
-      <input type="file" id="birthCert" required>
-      <label>Good Moral Certificate</label>
-      <input type="file" id="goodMoral" required>
-      <label>Form 138 (Report Card)</label>
-      <input type="file" id="reportCard" required>
+<h4>Facial Capture</h4>
+<div class="video-container">
+<video id="video" width="300" height="225" autoplay muted></video><br>
+<button type="button" id="captureBtn">Capture Face</button>
+<button type="button" id="retryBtn" style="display:none;">Retry</button>
+</div>
+<div id="facePreview" class="photo-preview">No Face</div>
 
-      <h4>Facial Capture</h4>
-      <div class="video-container">
-        <video id="video" width="300" height="225" autoplay muted></video><br>
-        <button type="button" id="captureBtn">Capture Face</button>
-        <button type="button" id="retryBtn" style="display:none;">Retry</button>
-      </div>
-      <div id="facePreview" class="photo-preview">No Face</div>
+<h4>2x2 Photo</h4>
+<input type="file" id="photoUpload" required>
+<div id="photoPreview" class="photo-preview">No Image</div>
+<button type="button" id="back5">Back</button>
+<button type="button" id="next5">Next</button>
+</div>
 
-      <h4>2x2 Photo</h4>
-      <input type="file" id="photoUpload" required>
-      <div id="photoPreview" class="photo-preview">No Image</div>
-      <button type="button" onclick="prevStep(4)">Back</button>
-      <button type="button" onclick="validateStep(5,6)">Next</button>
-    </div>
+<!-- STEP 6 -->
+<div class="step" id="step6">
+<h3>Step 6: Selection</h3>
+<select id="Campus" required>
+<option value="">Select Campus</option>
+<option>Main (Legarda)</option>
+<option>Pasig</option>
+<option>Pasay</option>
+<option>Malabon</option>
+</select>
+<select id="GradeLevel" required>
+<option value="">Select Grade</option>
+<option>Grade 11</option>
+<option>Grade 12</option>
+</select>
+<select id="Strand" required>
+<option value="">Select Strand</option>
+<optgroup label="Academic Track">
+<option>ABM</option>
+<option>HUMSS</option>
+<option>STEM</option>
+<option>GAS</option>
+</optgroup>
+<optgroup label="TVL Track">
+<option>ICT</option>
+<option>Home Economics</option>
+</optgroup>
+</select>
+<button type="button" id="back6">Back</button>
+<button type="button" id="submitBtn">Submit Enrollment</button>
+</div>
 
-    <!-- STEP 6: COURSE SELECTION -->
-    <div class="step" id="step6">
-      <h3>Step 6: Selection</h3>
-      <select id="Campus" required>
-        <option value="">Select Campus</option>
-        <option>Main (Legarda)</option>
-        <option>Pasig</option>
-        <option>Pasay</option>
-        <option>Malabon</option>
-      </select>
-      <select id="GradeLevel" required>
-        <option value="">Select Grade</option>
-        <option>Grade 11</option>
-        <option>Grade 12</option>
-      </select>
-      <select id="Strand" required>
-        <option value="">Select Strand</option>
-        <optgroup label="Academic Track">
-          <option>ABM</option>
-          <option>HUMSS</option>
-          <option>STEM</option>
-          <option>GAS</option>
-        </optgroup>
-        <optgroup label="TVL Track">
-          <option>ICT</option>
-          <option>Home Economics</option>
-        </optgroup>
-      </select>
-      <button type="button" onclick="prevStep(5)">Back</button>
-      <button type="button" id="submitBtn">Submit Enrollment</button>
-    </div>
-
-  </form>
+</form>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function(){
 
-  // ---------------- MULTI-STEP FORM ----------------
-  let currentStep = 1;
-  const totalSteps = 6;
+// ---- Multi-step Navigation ----
+let currentStep = 1;
+const totalSteps = 6;
+function showStep(step){
+if(step<1||step>totalSteps) return;
+currentStep=step;
+document.querySelectorAll('.step').forEach(el=>el.classList.remove('active'));
+document.getElementById('step'+step).classList.add('active');
+document.getElementById('progress').style.width=(step/totalSteps*100)+'%';
+}
 
-  function showStep(step){
-    if(step < 1 || step > totalSteps) return;
-    currentStep = step;
-    document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-    document.getElementById('step' + step).classList.add('active');
-    document.getElementById('progress').style.width = (step / totalSteps * 100) + '%';
-  }
+// Attach button events
+document.getElementById('next1').addEventListener('click', ()=>validateStep(1,2));
+document.getElementById('next2').addEventListener('click', ()=>validateStep(2,3));
+document.getElementById('next3').addEventListener('click', ()=>validateStep(3,4));
+document.getElementById('next4').addEventListener('click', ()=>validateStep(4,5));
+document.getElementById('next5').addEventListener('click', ()=>validateStep(5,6));
 
-  window.validateStep = function(current, next){
-    const inputs = document.querySelectorAll('#step'+current+' input, #step'+current+' select');
-    for (let i of inputs) {
-      if (i.hasAttribute('required') && !i.value) {
-        alert("Please fill all required fields.");
-        i.focus();
-        return;
-      }
-    }
-    showStep(next);
-  }
+document.getElementById('back2').addEventListener('click', ()=>showStep(1));
+document.getElementById('back3').addEventListener('click', ()=>showStep(2));
+document.getElementById('back4').addEventListener('click', ()=>showStep(3));
+document.getElementById('back5').addEventListener('click', ()=>showStep(4));
+document.getElementById('back6').addEventListener('click', ()=>showStep(5));
 
-  window.prevStep = function(step){
-    showStep(step);
-  }
+function validateStep(current,next){
+const inputs=document.querySelectorAll('#step'+current+' input, #step'+current+' select');
+for(let i of inputs){if(i.hasAttribute('required')&&!i.value){alert("Please fill all required fields.");i.focus();return;}}
+showStep(next);
+}
 
-  // ---------------- ADDRESS DATA ----------------
-  const addressData = {
-    "NCR": {
-      "Manila": { "Tondo":"1012","Binondo":"1006","Sampaloc":"1008","Ermita":"1000","Santa Cruz":"1003","Quiapo":"1001","Malate":"1004" },
-      "Quezon City": {"Diliman":"1101","Cubao":"1109","Novaliches":"1123","Fairview":"1118"},
-      "Makati": {"Poblacion":"1200","Bel-Air":"1209","Dasmariñas":"1211"},
-      "Pasig": {"San Miguel":"1600","Oranbo":"1605"},
-      "Pasay": {"183":"1300","84":"1304"},
-      "Malabon": {"Tinajeros":"1470","Longos":"1471"}
-    }
-  };
+// ---- Address Cascading ----
+const addressData={
+"NCR":{
+"Manila":{"Tondo":"1012","Binondo":"1006","Sampaloc":"1008","Ermita":"1000","Santa Cruz":"1003","Quiapo":"1001","Malate":"1004"},
+"Quezon City":{"Diliman":"1101","Cubao":"1109","Novaliches":"1123","Fairview":"1118"},
+"Makati":{"Poblacion":"1200","Bel-Air":"1209","Dasmariñas":"1211"},
+"Pasig":{"San Miguel":"1600","Oranbo":"1605"},
+"Pasay":{"Barangay1":"1300","Barangay2":"1304"},
+"Malabon":{"Tinajeros":"1470","Longos":"1471"}
+}
+};
+const region=document.getElementById("region");
+const province=document.getElementById("province");
+const barangay=document.getElementById("barangay");
+const zip=document.getElementById("zip");
 
-  const region = document.getElementById("region");
-  const province = document.getElementById("province");
-  const barangay = document.getElementById("barangay");
-  const zip = document.getElementById("zip");
+region.addEventListener("change",function(){
+province.innerHTML='<option value="">-- Select City --</option>';
+barangay.innerHTML='<option value="">-- Select Barangay --</option>';
+zip.value='';
+if(this.value&&addressData[this.value]){
+Object.keys(addressData[this.value]).forEach(city=>province.innerHTML+=`<option value="${city}">${city}</option>`);
+}
+});
+province.addEventListener("change",function(){
+barangay.innerHTML='<option value="">-- Select Barangay --</option>';
+zip.value='';
+const reg=region.value;
+const city=this.value;
+if(reg&&city&&addressData[reg][city]){
+Object.keys(addressData[reg][city]).forEach(brgy=>barangay.innerHTML+=`<option value="${brgy}">${brgy}</option>`);
+}
+});
+barangay.addEventListener("change",function(){
+const reg=region.value;
+const city=province.value;
+const brgy=this.value;
+zip.value=reg&&city&&brgy?addressData[reg][city][brgy]:'';
+});
 
-  region.addEventListener("change", function(){
-    province.innerHTML = '<option value="">-- Select City --</option>';
-    barangay.innerHTML = '<option value="">-- Select Barangay --</option>';
-    zip.value = '';
-    if(this.value && addressData[this.value]){
-      Object.keys(addressData[this.value]).forEach(city=>{
-        province.innerHTML += `<option value="${city}">${city}</option>`;
-      });
-    }
-  });
+// ---- Middle Initial ----
+const noMI=document.getElementById("noMI");
+const mi=document.getElementById("middleInitial");
+noMI.addEventListener("change",function(){
+mi.disabled=this.checked;
+mi.value=this.checked?'N/A':'';
+});
 
-  province.addEventListener("change", function(){
-    barangay.innerHTML = '<option value="">-- Select Barangay --</option>';
-    zip.value = '';
-    const reg = region.value;
-    const city = this.value;
-    if(reg && city && addressData[reg][city]){
-      Object.keys(addressData[reg][city]).forEach(brgy=>{
-        barangay.innerHTML += `<option value="${brgy}">${brgy}</option>`;
-      });
-    }
-  });
+// ---- Photo Preview ----
+document.getElementById("photoUpload").addEventListener("change",function(){
+if(this.files && this.files[0]){
+const reader=new FileReader();
+reader.onload=e=>document.getElementById("photoPreview").innerHTML=`<img src="${e.target.result}">`;
+reader.readAsDataURL(this.files[0]);
+});
+}
 
-  barangay.addEventListener("change", function(){
-    const reg = region.value;
-    const city = province.value;
-    const brgy = this.value;
-    zip.value = reg && city && brgy ? addressData[reg][city][brgy] : '';
-  });
+// ---- Camera ----
+const video=document.getElementById('video');
+const canvas=document.createElement('canvas');
+canvas.width=300;canvas.height=225;
+if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
+navigator.mediaDevices.getUserMedia({video:true}).then(stream=>video.srcObject=stream).catch(err=>console.warn("Camera not available",err));
+}
+document.getElementById('captureBtn').addEventListener('click',function(){
+const ctx=canvas.getContext('2d');
+ctx.drawImage(video,0,0,canvas.width,canvas.height);
+const faceData=canvas.toDataURL();
+document.getElementById('facePreview').innerHTML=`<img src="${faceData}">`;
+localStorage.setItem("face",faceData);
+this.style.display="none";
+document.getElementById('retryBtn').style.display="inline-block";
+});
+document.getElementById('retryBtn').addEventListener('click',function(){
+document.getElementById('facePreview').innerHTML='No Face';
+localStorage.removeItem("face");
+this.style.display="none";
+document.getElementById('captureBtn').style.display="inline-block";
+});
 
-  // ---------------- MIDDLE INITIAL ----------------
-  const noMI = document.getElementById("noMI");
-  const mi = document.getElementById("middleInitial");
-  noMI.addEventListener("change", function(){
-    if(this.checked){ mi.value="N/A"; mi.disabled=true; } else{ mi.value=""; mi.disabled=false; }
-  });
+// ---- Form Submission ----
+function fileToBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file);});}
+function generateGWA(strand){let min=75,max=95;if(strand==="STEM") min=80;if(strand==="ABM") min=78;if(strand==="HUMSS") min=77;if(strand==="ICT") min=76;return (Math.random()*(max-min)+min).toFixed(2);}
+document.getElementById('submitBtn').addEventListener('click',async function(){
+const step6Inputs=document.querySelectorAll('#step6 select');for(let i of step6Inputs){if(!i.value){alert("Please fill all required fields in Step 6.");i.focus();return;}}
+const birthCert=document.getElementById('birthCert').files[0]?await fileToBase64(document.getElementById('birthCert').files[0]):"";
+const goodMoral=document.getElementById('goodMoral').files[0]?await fileToBase64(document.getElementById('goodMoral').files[0]):"";
+const reportCard=document.getElementById('reportCard').files[0]?await fileToBase64(document.getElementById('reportCard').files[0]):"";
+const gwaValue=generateGWA(document.getElementById('Strand').value);
+const student={
+id:"AU-"+Math.floor(Math.random()*999999),
+firstName:document.getElementById('firstName').value,
+lastName:document.getElementById('lastName').value,
+middleInitial:mi.value||"N/A",
+suffix:document.getElementById('suffix').value||"N/A",
+gender:document.getElementById('gender').value,
+birthdate:document.getElementById('birthdate').value,
+email:document.getElementById('email').value,
+region:region.value,
+province:province.value,
+barangay:barangay.value,
+street:document.getElementById('street').value,
+zip:zip.value,
+campus:document.getElementById('Campus').value,
+grade:document.getElementById('GradeLevel').value,
+strand:document.getElementById('Strand').value,
+gwa:gwaValue,
+documents:{birthCert,goodMoral,reportCard},
+photo:document.querySelector('#photoPreview img')?.src||"",
+facialPhoto:localStorage.getItem("face")||"",
+status:"Pending"
+};
+let db=JSON.parse(localStorage.getItem('students'))||[];
+db.push(student);
+localStorage.setItem('students',JSON.stringify(db));
+alert("Enrollment Submitted!\nYour ID: "+student.id);
+location.reload();
+});
 
-  // ---------------- IMAGE PREVIEW ----------------
-  document.getElementById("photoUpload").addEventListener("change", function(){
-    if (this.files && this.files[0]) {
-      const reader = new FileReader();
-      reader.onload = e => { document.getElementById("photoPreview").innerHTML = `<img src="${e.target.result}">`; }
-      reader.readAsDataURL(this.files[0]);
-    }
-  });
-
-  function fileToBase64(file){
-    return new Promise((resolve,reject)=>{
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  }
-
-  // ---------------- CAMERA ----------------
-  const video = document.getElementById('video');
-  const canvas = document.createElement('canvas');
-  canvas.width = 300; canvas.height = 225;
-
-  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(stream => video.srcObject = stream)
-      .catch(err => console.warn("Camera not available", err));
-  }
-
-  document.getElementById('captureBtn').addEventListener("click", function(){
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(video,0,0,canvas.width,canvas.height);
-    const faceData = canvas.toDataURL();
-    document.getElementById('facePreview').innerHTML = `<img src="${faceData}">`;
-    localStorage.setItem("face", faceData);
-    this.style.display = "none";
-    document.getElementById('retryBtn').style.display = "inline-block";
-  });
-
-  document.getElementById('retryBtn').addEventListener("click", function(){
-    document.getElementById('facePreview').innerHTML = 'No Face';
-    localStorage.removeItem("face");
-    this.style.display = "none";
-    document.getElementById('captureBtn').style.display = "inline-block";
-  });
-
-  // ---------------- GWA ----------------
-  function generateGWA(strand){
-    let min=75, max=95;
-    if(strand==="STEM") min=80;
-    if(strand==="ABM") min=78;
-    if(strand==="HUMSS") min=77;
-    if(strand==="ICT") min=76;
-    return (Math.random()*(max-min)+min).toFixed(2);
-  }
-
-  // ---------------- FORM SUBMISSION ----------------
-  document.getElementById('submitBtn').addEventListener("click", async function(){
-    const step6Inputs = document.querySelectorAll('#step6 select');
-    for(let i of step6Inputs){ if(!i.value){ alert("Please fill all required fields in Step 6."); i.focus(); return; } }
-
-    const birthCert = document.getElementById('birthCert').files[0] ? await fileToBase64(document.getElementById('birthCert').files[0]) : "";
-    const goodMoral = document.getElementById('goodMoral').files[0] ? await fileToBase64(document.getElementById('goodMoral').files[0]) : "";
-    const reportCard = document.getElementById('reportCard').files[0] ? await fileToBase64(document.getElementById('reportCard').files[0]) : "";
-
-    const gwaValue = generateGWA(document.getElementById('Strand').value);
-
-    const student = {
-      id:"AU-"+Math.floor(Math.random()*999999),
-      firstName: document.getElementById('firstName').value,
-      lastName: document.getElementById('lastName').value,
-      middleInitial: mi.value||"N/A",
-      suffix: document.getElementById('suffix').value||"N/A",
-      gender: document.getElementById('gender').value,
-      birthdate: document.getElementById('birthdate').value,
-      email: document.getElementById('email').value,
-      region: region.value,
-      province: province.value,
-      barangay: barangay.value,
-      street: document.getElementById('street').value,
-      zip: zip.value,
-      campus: document.getElementById('Campus').value,
-      grade: document.getElementById('GradeLevel').value,
-      strand: document.getElementById('Strand').value,
-      gwa: gwaValue,
-      documents: { birthCert, goodMoral, reportCard },
-      photo: document.querySelector('#photoPreview img')?.src || "",
-      facialPhoto: localStorage.getItem("face") || "",
-      status:"Pending"
-    };
-
-    let db = JSON.parse(localStorage.getItem('students')) || [];
-    db.push(student);
-    localStorage.setItem('students', JSON.stringify(db));
-    alert("Enrollment Submitted!\nYour ID: " + student.id);
-    location.reload();
-  });
-
-  // ---------------- SELECT2 ----------------
-  $('#region, #province, #barangay, #Campus, #GradeLevel, #Strand').select2();
+// ---- Select2 ----
+$('#region,#province,#barangay,#Campus,#GradeLevel,#Strand').select2();
 
 });
 </script>
