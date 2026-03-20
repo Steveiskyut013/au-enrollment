@@ -111,7 +111,7 @@ function approve(id){
     students = students.map(s => {
         if(s.id === id){
             s.status = 'Approved';
-            if(!s.section) s.section = s.strand + ' - ' + (Math.floor(Math.random()*3)+1);
+            if(!s.section) s.section = (Math.floor(Math.random()*3)+1);
         }
         return s;
     });
